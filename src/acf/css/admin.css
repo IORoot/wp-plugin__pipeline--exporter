@@ -1,0 +1,89 @@
+
+/*  ┌─────────────────────────────────────────────────────────────────────────┐
+    │                                                                         │░
+    │                                                                         │░
+    │                                 TABLES                                  │░
+    │                                                                         │░
+    │                                                                         │░
+    └─────────────────────────────────────────────────────────────────────────┘░
+     ░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░ */
+
+#acf-group_5f7c126340cb8 table.acf-table  { 
+    border-collapse: separate;
+    border-spacing: 0 40px;
+    border: 0px;
+    background: transparent;
+}    
+#acf-group_5f7c126340cb8 table.acf-table>tbody>tr { 
+    border: 0px;
+    box-shadow: 0 2.8px 2.2px rgba(0, 0, 0, 0.034), 0 6.7px 5.3px rgba(0, 0, 0, 0.048), 0 12.5px 10px rgba(0, 0, 0, 0.06), 0 22.3px 17.9px rgba(0, 0, 0, 0.072);
+}    
+#acf-group_5f7c126340cb8 table.acf-table>tbody>tr>td { 
+    border:0px;
+    border-top: 1px solid rgba(230,230,230,0.5);
+}
+
+/*  ┌─────────────────────────────────────────────────────────────────────────┐
+    │                                                                         │
+    │                            DATETIME PICKER                              │
+    │                                                                         │
+    └─────────────────────────────────────────────────────────────────────────┘ */
+#acf-group_5f7c126340cb8 .ui-datepicker-calendar table {
+    border-spacing: 0px;
+}
+#acf-group_5f7c126340cb8 .ui-datepicker-calendar table>tbody>tr {
+    box-shadow: none;
+}
+#acf-group_5f7c126340cb8 .ui-datepicker-calendar table>tbody>tr>td {
+    border-top: 0px;
+}
+#acf-group_5f7c126340cb8 .calendar-inline .ui-datepicker {
+    padding: 0px;
+    border: 0px;
+    box-shadow: none;
+    width: 100%;
+}
+#acf-group_5f7c126340cb8 .ui-datepicker-calendar a {
+    text-align: center;
+}
+#acf-group_5f7c126340cb8 .ui-timepicker-div.ui-timepicker-oneLine dl dd 
+{
+    margin-right: 4px;
+}
+
+#acf-group_5f7c126340cb8 .acf-fields.-border {
+    border: 0px;
+    background: transparent;
+}
+
+#acf-group_5f7c126340cb8 .acf-field-group {
+    padding: 0px;
+}
+
+/*  ┌─────────────────────────────────────────────────────────────────────────┐
+    │                                                                         │
+    │                              OAUTH Button                               │
+    │                                                                         │
+    └─────────────────────────────────────────────────────────────────────────┘ */
+.acf-field-message.enabled #acf__youtube-oauth,
+.acf-field-message.enabled #acf__gmb-oauth {
+    background-color: #38EF7D;
+    color: #fff;
+    border: none;
+    opacity: 0.5;
+}
+
+/*  ┌─────────────────────────────────────────────────────────────────────────┐
+    │                                                                         │
+    │                            Moustache Blocks                             │
+    │                                                                         │
+    └─────────────────────────────────────────────────────────────────────────┘ */
+#acf-group_5f7c126340cb8 .ue__moustache {
+    background: #38EF7D;
+    color: #242424;
+    display: inline-block;
+    margin: 2px;
+    padding: 2px 6px;
+    border-radius: 20px;
+    font-size: 10px;
+}
