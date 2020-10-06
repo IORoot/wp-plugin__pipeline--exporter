@@ -50,7 +50,7 @@ class call_to_action
         $this->build_mediaItem();
         $this->build_localPost();
         $this->create_localPost();
-        $this->debug_update('export', $this->results);
+        $this->debug('export', $this->results);
     }
     
 

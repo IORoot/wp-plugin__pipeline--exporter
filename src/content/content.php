@@ -40,8 +40,6 @@ class content
     public function instantiate_class()
     {
         $this->class_object = $this::class_instantiate('ex\content', $this->input_type());
-        return;
-
     }
 
 
@@ -63,7 +61,7 @@ class content
     public function execute()
     {
         $this->results = $this->class_object->run();
-        $this->debug_update('content', $this->results);
+        $this->debug('content', $this->results);
         
     }
 

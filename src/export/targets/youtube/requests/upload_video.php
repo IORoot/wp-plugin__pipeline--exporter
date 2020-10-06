@@ -200,14 +200,14 @@ class upload_video
             $this->client->setDefer(false);
 
             // send to debugger.
-            $this->debug_update('export', $this->returned);
+            $this->debug('export', $this->returned);
 
             $this->result['video'] = $this->returned;
         } 
         catch (\Google_Service_Exception $e) {
             $this->results = 'Caught \Google_Service_Exception: ' .  print_r($e->getMessage(), true) . "\n" . 'Request was: ' . print_r($this->localPost,true);
             $this->debug('export', $e->getMessage());
-            $this->debug_update('export', 'CHECK - Have you run out of quota? INSERTS are 1600 credits! (only about 8 per day).');
+            $this->debug('export', 'CHECK - Have you run out of quota? INSERTS are 1600 credits! (only about 8 per day).');
         }
         catch (\Exception $e) {
             $this->results = 'Caught \exception: ' .  print_r($e->getMessage(),true) . "\n" . 'Request was: ' . print_r($this->localPost, true);
@@ -246,7 +246,7 @@ class upload_video
         $filesize = filesize(trim($this->options['details']['video_path']));
         if ($filesize < 100)
         {
-            $this->debug_update('export', 'Bad Video File. < 100 bytes.');
+            $this->debug('export', 'Bad Video File. < 100 bytes.');
             return true;
         }
         return false;

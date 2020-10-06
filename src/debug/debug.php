@@ -8,48 +8,41 @@ trait debug
 
     use \ex\utils;
 
-    public $acf_textarea;
-
-    public $title;
-
-    public $namespace = "ex";
-
-    public $char_limit = 10000;
-
-    public $trimmed_string;
+    public $debug = [
+        'acf_textarea' => '',
+        'title' => '',
+        'namespace' => 'ex',
+        'char_limit' => 10000,
+        'trimmed_string' => '',
+    ];
 
 
     public function debug($section, $message)
     {
         $this->set_acf_textarea($section);
-
-        $this->debug_clear($section);
-
         $this->debug_update($section, $message);
     }
-
-
-
-
-    public function set_acf_textarea($section)
-    {
-        $acf_group = $this->namespace . '_' . $section . '_debug_group';
-        $this->acf_textarea = $acf_group . '_' . $this->namespace . '_' . $section . '_debug';
-    }
-
-
-
-
-
 
     public function debug_clear($section)
     {
         $this->set_acf_textarea($section);
-        return update_field( $this->acf_textarea, '', 'option');
+        return update_field( $this->debug['acf_textarea'] . '_window', '', 'option');
     }
 
 
-    public function add_title($section)
+
+
+
+    private function set_acf_textarea($section)
+    {
+
+        $this->debug['acf_textarea'] = $this->debug['namespace'] . '_' . $section . '_debug';
+        
+    }
+
+
+
+    private function add_title($section)
     {
         $title =  PHP_EOL . '# ====================== # ';
         $title .= $section . ' - ' . date('r');
@@ -60,9 +53,10 @@ trait debug
 
 
 
-    public function debug_update($section, $message)
+    private function debug_update($section, $message)
     {
-        $this->set_acf_textarea($section);
+
+        $field = $this->debug['acf_textarea'] . '_window';
 
         $this->get_character_limit();
 
@@ -73,35 +67,32 @@ trait debug
         $value = $this::to_pretty_JSON($message);
         // $value = $this::to_print_r($message);
 
-        $current = get_field($this->acf_textarea, 'option');
+        $current = get_field($this->debug['acf_textarea'], 'option');
 
         $value = $title.$value.$current;
 
-        if ($this->char_limit != 0){
-            $this->trimmed_string = substr($value, 0, $this->char_limit);
+        if ($this->debug['char_limit'] != 0){
+            $this->debug['trimmed_string'] = substr($value, 0, $this->debug['char_limit']);
         }
 
         $this->set_character_count();
         $this->set_line_count();
 
-        $update = update_field($this->acf_textarea, $this->trimmed_string, 'option');
+        $result = update_field($field , $this->debug['trimmed_string'], 'option');
 
     }
 
 
 
-
-
-
-    public function get_character_limit()
+    private function get_character_limit()
     {
-        $field = $this->acf_textarea . '_limit';
-        $this->char_limit = intval(get_field($field, 'options'));
+        $field = $this->debug['acf_textarea'] . '_limit';
+        $this->debug['char_limit'] = intval(get_field($field, 'options'));
     }
     
-    public function set_record_count()
+    private function set_record_count()
     {
-        $field = $this->acf_textarea . '_records';
+        $field = $this->debug['acf_textarea'] . '_records';
 
         if (!isset($this->results)){ return; }
 
@@ -110,21 +101,21 @@ trait debug
         return update_field( $field, $count, 'option');
     }
 
-    public function set_character_count()
+    private function set_character_count()
     {
-        $field = $this->acf_textarea . '_characters';
+        $field = $this->debug['acf_textarea'] . '_characters';
 
-        $count = strlen($this->trimmed_string);
+        $count = strlen($this->debug['trimmed_string']);
 
         return update_field( $field, $count, 'option');
     }
 
-    public function set_line_count()
+    private function set_line_count()
     {
-        $field = $this->acf_textarea . '_lines';
+        $field = $this->debug['acf_textarea'] . '_lines';
 
-        if (empty($this->trimmed_string)){ return; }
-        $count = substr_count( $this->trimmed_string, "\n" );
+        if (empty($this->debug['trimmed_string'])){ return; }
+        $count = substr_count( $this->debug['trimmed_string'], "\n" );
 
         return update_field( $field, $count, 'option');
     }
