@@ -5,7 +5,7 @@ namespace ex\exporter\youtube;
 class upload_video
 {
 
-    use \ue\debug;
+    use \ex\debug;
 
     private $options;
 
@@ -77,7 +77,7 @@ class upload_video
     {
         foreach($this->data as $posttype => $post)
         {
-            $parse = new \ue\parse\replace_moustaches_in_array($post['ID'], $this->options);
+            $parse = new \ex\parse\replace_moustaches_in_array($post['ID'], $this->options);
             $this->options = $parse->get_results();
         }
         

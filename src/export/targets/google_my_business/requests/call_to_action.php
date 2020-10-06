@@ -5,7 +5,7 @@ namespace ex\exporter\gmb;
 class call_to_action
 {
 
-    use \ue\debug;
+    use \ex\debug;
 
     private $options;
 
@@ -84,7 +84,7 @@ class call_to_action
     {
         foreach($this->data as $posttype => $post)
         {
-            $parse = new \ue\parse\replace_moustaches_in_array($post['ID'], $this->options);
+            $parse = new \ex\parse\replace_moustaches_in_array($post['ID'], $this->options);
             $this->options = $parse->get_results();
         }
         

@@ -6,13 +6,13 @@ namespace ex;
 trait debug
 {
 
-    use \ue\utils;
+    use \ex\utils;
 
     public $acf_textarea;
 
     public $title;
 
-    public $namespace = "ue";
+    public $namespace = "ex";
 
     public $char_limit = 10000;
 

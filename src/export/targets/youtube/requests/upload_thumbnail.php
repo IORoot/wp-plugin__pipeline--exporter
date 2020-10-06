@@ -5,7 +5,7 @@ namespace ex\exporter\youtube;
 class upload_thumbnail
 {
 
-    use \ue\debug;
+    use \ex\debug;
 
     private $imageURL;
 

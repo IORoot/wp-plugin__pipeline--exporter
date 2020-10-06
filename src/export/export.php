@@ -40,12 +40,12 @@ class export
 
     public function set_options($options)
     {
-        $this->options = $options['ue_job_export_id'];
+        $this->options = $options['ex_job_export_id'];
     }
 
     public function set_collection($collection)
     {
-        $this->collection = $collection['ue\save'];
+        $this->collection = $collection['ex\save'];
     }
 
     public function run()
@@ -69,7 +69,7 @@ class export
 
     private function loop_through_exporters()
     {
-        foreach($this->options['ue_export_target_mapping'] as $this->current_exporter)
+        foreach($this->options['ex_export_target_mapping'] as $this->current_exporter)
         {
             $this->run_exporter();
         }
@@ -79,7 +79,7 @@ class export
     private function run_exporter()
     {
         $exporterName = $this->current_exporter['acf_fc_layout'];
-        $exporterClass = 'ue_'.$exporterName;
+        $exporterClass = 'ex_'.$exporterName;
 
         foreach ($this->collection as $key => $collection)
         {
@@ -109,7 +109,7 @@ class export
 
     private function is_disabled()
     {
-        if ($this->options['ue_export_group']['ue_export_enabled'] == false)
+        if ($this->options['ex_export_group']['ex_export_enabled'] == false)
         {
             return true;
         }
@@ -139,8 +139,8 @@ class export
             $moustache_array[] = preg_replace('/^post_/', '', $new_key);
         }
 
-        $moustache_array = implode('}}</div> <div class="ue__moustache">{{',$moustache_array);
-        $moustache_array = '<div class="ue__moustache">{{'.$moustache_array.'}}</div>';
+        $moustache_array = implode('}}</div> <div class="ex__moustache">{{',$moustache_array);
+        $moustache_array = '<div class="ex__moustache">{{'.$moustache_array.'}}</div>';
 
         $field = new \update_acf_options_field;
         $field->set_field('field_5f72e75c0f92c');

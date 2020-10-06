@@ -5,8 +5,8 @@ namespace ex;
 class options
 {
 
-    public $repeaters = [ 'job', 'content', 'process', 'combine', 'mapping', 'save', 'schedule', 'export', 'housekeep'];
-    public $prefix = 'ue';
+    public $repeaters = [ 'job', 'content', 'schedule', 'export', 'housekeep'];
+    public $prefix = 'ex';
     public $main_repeater = 'job';
 
     public $instance_name;
@@ -30,7 +30,7 @@ class options
 
     private function add_randoms()
     {
-        $this->fields[$this->main_repeater]['saveonly'] = get_field('ue_save_settings_only', 'option');
+        $this->fields[$this->main_repeater]['saveonly'] = get_field('ex_save_settings_only', 'option');
     }
 
 
@@ -125,7 +125,7 @@ class options
     {
         foreach ($single_instance as $field_id => $field_value) {
 
-            // skip the first field - this is the ue_job_group.
+            // skip the first field - this is the ex_job_group.
             if (is_array($field_value) )
             {
                 continue;
@@ -141,13 +141,13 @@ class options
     public function substitute_id_for_full_array($instance_id, $field_id, $field_value)
     {
 
-        // remove 'ue_job_' and '_id' from 'ue_job_content_id'
+        // remove 'ex_job_' and '_id' from 'ex_job_content_id'
         $this->get_instance_name($field_id);
 
-        // group name ue_content_group
+        // group name ex_content_group
         $this->get_group_name($field_id);
         
-        // remove job_ from ue_job_content_id
+        // remove job_ from ex_job_content_id
         $this->get_key($field_id);
 
         if (!isset($this->fields[$this->instance_name]))

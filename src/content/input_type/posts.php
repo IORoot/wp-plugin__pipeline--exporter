@@ -5,8 +5,8 @@ namespace ex\content;
 class posts
 {
 
-    use \ue\utils;
-    use \ue\wp;
+    use \ex\utils;
+    use \ex\wp;
 
     public $args;
 
@@ -23,7 +23,7 @@ class posts
         foreach ($this->args as $key => $post)
         {
             $this->result[$key] = (array) $post;
-            $this->result[$key] = array_merge($this->result[$key], \ue\wp_get_meta($post->ID));
+            $this->result[$key] = array_merge($this->result[$key], \ex\wp_get_meta($post->ID));
         }
 
         return $this->result;

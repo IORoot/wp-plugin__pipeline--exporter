@@ -1,11 +1,11 @@
 <?php
 
-// namespace ue\exporter;
+// namespace ex\exporter;
 
 class ex_google_my_business
 {
     
-    use \ue\debug;
+    use \ex\debug;
     
     private $options;
 
@@ -59,7 +59,7 @@ class ex_google_my_business
 
     private function do_requests()
     {
-        foreach ($this->options["ue_cta_universal_exporter_google_my_business_posts"] as $this->request_type)
+        foreach ($this->options["ex_cta_universal_exporter_google_my_business_posts"] as $this->request_type)
         {
             $this->run_gmb_request();
         }
@@ -67,7 +67,7 @@ class ex_google_my_business
 
     private function run_gmb_request()
     {
-        $request_name = '\\ue\\exporter\\gmb\\' . $this->request_type['acf_fc_layout'];
+        $request_name = '\\ex\\exporter\\gmb\\' . $this->request_type['acf_fc_layout'];
         $this->request = new $request_name;
         $this->request->set_options($this->request_type);
         $this->request->set_data($this->data);

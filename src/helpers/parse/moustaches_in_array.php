@@ -5,7 +5,7 @@ namespace ex\parse;
 class replace_moustaches_in_array
 {
 
-    use \ue\utils\array_flat;
+    use \ex\utils\array_flat;
 
     private $post_id;
     private $array_to_change;

@@ -1,7 +1,5 @@
 <?php
 
-// namespace ue\exporter;
-
 // ┌───────────────────────────────────────────────────────────────────────────┐
 // │Explanations at:                                                           │
 // │                                                                           │
@@ -15,7 +13,7 @@
 
 class ex_youtube
 {
-    use \ue\debug;
+    use \ex\debug;
 
     private $options;
 
@@ -63,7 +61,7 @@ class ex_youtube
 
     private function do_requests()
     {
-        foreach ($this->options["ue_video_universal_exporter_youtube_posts"] as $this->request_type)
+        foreach ($this->options["ex_video_universal_exporter_youtube_posts"] as $this->request_type)
         {
             $this->run_youtube_request();
         }
@@ -71,7 +69,7 @@ class ex_youtube
 
     private function run_youtube_request()
     {
-        $request_name = '\\ue\\exporter\\youtube\\' . $this->request_type['acf_fc_layout'];
+        $request_name = '\\ex\\exporter\\youtube\\' . $this->request_type['acf_fc_layout'];
         $this->request = new $request_name;
         $this->request->set_options($this->request_type);
         $this->request->set_data($this->data);

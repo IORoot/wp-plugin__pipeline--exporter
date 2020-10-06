@@ -14,10 +14,10 @@ function save_ex_options()
     // ┌─────────────────────────────────────────────────────────────────────────┐
     // │                           Kick off the program                          │
     // └─────────────────────────────────────────────────────────────────────────┘
-    $ue = new \ex\exporter;
+    $ex = new \ex\exporter;
     $options = (new \ex\options)->get_options();
-    $ue->set_options($options);
-    $ue->run();
+    $ex->set_options($options);
+    $ex->run();
     
     return;
 }
