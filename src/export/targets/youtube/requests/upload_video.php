@@ -75,9 +75,9 @@ class upload_video
      */
     private function parse_moustaches()
     {
-        foreach($this->data as $posttype => $post)
+        foreach($this->data as $key => $post)
         {
-            $parse = new \ex\parse\replace_moustaches_in_array($post['ID'], $this->options);
+            $parse = new \ex\parse\replace_moustaches_in_array($post, $this->options);
             $this->options = $parse->get_results();
         }
         
@@ -243,12 +243,19 @@ class upload_video
 
     private function isBadVideo()
     {
+        if ($this->options['details']['video_path'] == "")
+        {
+            $this->debug('export', 'No Video File.');
+            return true;
+        }
+
         $filesize = filesize(trim($this->options['details']['video_path']));
         if ($filesize < 100)
         {
             $this->debug('export', 'Bad Video File. < 100 bytes.');
             return true;
         }
+
         return false;
     }
 

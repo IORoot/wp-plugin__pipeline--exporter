@@ -104,8 +104,8 @@ class events
 
     private function parse_datetimes()
     {
-        $this->start_datetime = explode(',', $this->options['event_settings']['gmb_event_start_datetime']);
-        $this->end_datetime = explode(',', $this->options['event_settings']['gmb_event_end_datetime']);
+        $this->start_datetime = explode(',', $this->options['settings']['start_datetime']);
+        $this->end_datetime = explode(',', $this->options['settings']['end_datetime']);
     }
 
     /**
@@ -118,7 +118,7 @@ class events
     private function build_event()
     {
         $this->event = new \Google_Service_MyBusiness_LocalPostEvent();
-        $this->event->setTitle($this->options['event_settings']['gmb_event_title']);
+        $this->event->setTitle($this->options['settings']['title']);
         $this->event->setSchedule($this->schedule);
     }
 
@@ -175,8 +175,8 @@ class events
     private function build_CTA()
     {
         $this->CTA = new \Google_Service_MyBusiness_CallToAction();
-        $this->CTA->setActionType($this->options['event_settings']['gmb_event_button_action_type']);
-        $this->CTA->setUrl($this->options['event_settings']['gmb_event_button_url']);
+        $this->CTA->setActionType($this->options['settings']['button_action_type']);
+        $this->CTA->setUrl($this->options['settings']['button_url']);
     }
 
     /**
@@ -188,9 +188,14 @@ class events
      */
     private function build_mediaItem()
     {
-        $this->media = new \Google_Service_MyBusiness_MediaItem();
-        $this->media->setMediaFormat($this->options['event_settings']['gmb_event_media_type']);
-        $this->media->setSourceUrl($this->options['event_settings']['gmb_event_media_source_url']);
+        $media = new upload_media();
+        $media->set_options($this->options);
+        $media->set_client($this->client);
+        $this->media = $media->run();
+        
+        // $this->media = new \Google_Service_MyBusiness_MediaItem();
+        // $this->media->setMediaFormat($this->options['settings']['media_type']);
+        // $this->media->setSourceUrl($this->options['settings']['media_source_url']);
     }
 
     /**
@@ -204,7 +209,7 @@ class events
     private function build_localPost()
     {
         $this->localPost = new \Google_Service_MyBusiness_LocalPost();
-        $this->localPost->setSummary(substr($this->options['gmb_event_summary'],0,1500));
+        $this->localPost->setSummary(substr($this->options['summary'],0,1500));
         $this->localPost->setLanguageCode('en-GB');
         $this->localPost->setEvent($this->event);
         $this->localPost->setCallToAction($this->CTA);
@@ -223,15 +228,18 @@ class events
 
         try {
             $this->results = $this->service->accounts_locations_localPosts->create(
-                $this->options['gmb_event_locationid'],
+                $this->options['locationid'],
                 $this->localPost
             );
         } 
         catch (\Google_Service_Exception $e) {
-            $this->results = 'Caught \Google_Service_Exception: ' .  $e->getMessage() . "\n" . 'Request was: ' . $this->localPost;
+            $this->results = 'Caught \Google_Service_Exception: ' .  $e->getMessage() . "\n";
+        }
+        catch (\Google_Exception $e) {
+            $this->results = 'Caught \Google_Exception: ' .  $e->getMessage() . "\n";
         }
         catch (\Exception $e) {
-            $this->results = 'Caught \Exception: ' .  $e->getMessage() . "\n" . 'Request was: ' . $this->localPost;
+            $this->results = 'Caught \Exception: ' .  $e->getMessage() . "\n";
         }
 
     }

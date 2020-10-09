@@ -28,6 +28,7 @@ class ex_google_my_business
 
     public function run()
     {
+        if ($this->noToken()){ return; }
         $this->set_client();
         if ($this->noClient()){ return; }
         $this->do_requests();
@@ -59,7 +60,7 @@ class ex_google_my_business
 
     private function do_requests()
     {
-        foreach ($this->options["ex_cta_universal_exporter_google_my_business_posts"] as $this->request_type)
+        foreach ($this->options["post_types_google_my_business"] as $this->request_type)
         {
             $this->run_gmb_request();
         }
@@ -93,4 +94,12 @@ class ex_google_my_business
         return false;
     }
     
+    private function noToken()
+    {
+        if (get_transient('GMB_OAUTH_REFRESH_TOKEN') == false)
+        {
+            return true;
+        }
+        return false;
+    }
 }

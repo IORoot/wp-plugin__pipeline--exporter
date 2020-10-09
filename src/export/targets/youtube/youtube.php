@@ -38,6 +38,7 @@ class ex_youtube
 
     public function run()
     {
+        if ($this->noToken()){ return; }
         $this->set_client();
         if ($this->noClient()){ return; }
         $this->do_requests();
@@ -61,7 +62,7 @@ class ex_youtube
 
     private function do_requests()
     {
-        foreach ($this->options["ex_video_universal_exporter_youtube_posts"] as $this->request_type)
+        foreach ($this->options["post_types_youtube"] as $this->request_type)
         {
             $this->run_youtube_request();
         }
@@ -78,13 +79,7 @@ class ex_youtube
         $this->results[] = $this->request->get_result();
     }
 
-    /**
-     * noTokens function
-     *
-     * Check to see if there are tokens.
-     * 
-     * @return void
-     */
+    
     private function noClient()
     {
         if ($this->client == null)
@@ -93,4 +88,15 @@ class ex_youtube
         }
         return false;
     }
+
+    private function noToken()
+    {
+        if (get_transient('YT_OAUTH_REFRESH_TOKEN') == false)
+        {
+            return true;
+        }
+        return false;
+    }
+
+
 }

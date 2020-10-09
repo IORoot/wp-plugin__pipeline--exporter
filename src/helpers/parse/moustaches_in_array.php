@@ -7,7 +7,7 @@ class replace_moustaches_in_array
 
     use \ex\utils\array_flat;
 
-    private $post_id;
+    private $post_object;
     private $array_to_change;
 
     private $post;
@@ -15,30 +15,29 @@ class replace_moustaches_in_array
 
     private $current_value;
 
-    public function __construct($post_id, $array_to_change)
+    public function __construct($post_object, $array_to_change)
     {
-        $this->post_id = $post_id;
+        $this->post_object = $post_object;
         $this->array_to_change = $array_to_change;
         $this->run();
     }
 
     public function run()
     {
-        $this->get_post_and_meta();
+        $this->flatten_post_object();
         $this->array_to_change = $this->walk_array($this->array_to_change);
     }
 
+    
     public function get_results()
     {
         return $this->array_to_change;
     }
 
-    private function get_post_and_meta()
+
+    private function flatten_post_object()
     {
-        $post = (array) get_post($this->post_id);
-        $meta = (array) get_post_meta($this->post_id);
-        $post_meta = array_merge($post, $meta);
-        $this->post = $this::array_flat($post_meta);
+        $this->post = $this::array_flat($this->post_object);
     }
 
 
@@ -82,6 +81,9 @@ class replace_moustaches_in_array
 
         foreach($matches as $match)
         {
+
+            // strip off the 0_ 1_ 2_ at the beginning of the moustache.
+            $match[1] = preg_replace('/^\d+\_/','', $match[1]);
 
             if ( strpos($match[1],'image:') !== false)
             {

@@ -12,6 +12,9 @@
  * Domain Path:       /languages
  */
 
+define('GOOGLE_APPLICATION_CREDENTIALS', __DIR__.'/client_secret.json');
+
+
 // ┌─────────────────────────────────────────────────────────────────────────┐
 // │                         Use composer autoloader                         │
 // └─────────────────────────────────────────────────────────────────────────┘
@@ -26,5 +29,3 @@ require __DIR__.'/vendor/GMB/MyBusiness.php';
 //  │                          The ACF Admin Page                             │
 //  └─────────────────────────────────────────────────────────────────────────┘
 require __DIR__.'/src/acf/acf_init.php';
-
-

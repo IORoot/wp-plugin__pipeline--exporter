@@ -45,7 +45,7 @@ class export
 
     public function set_collection($collection)
     {
-        $this->collection = $collection['ex\save'];
+        $this->collection = $collection['ex\content'];
     }
 
     public function run()
@@ -80,11 +80,6 @@ class export
     {
         $exporterName = $this->current_exporter['acf_fc_layout'];
         $exporterClass = 'ex_'.$exporterName;
-
-        foreach ($this->collection as $key => $collection)
-        {
-            $collection_ids[$key] = $collection['ID'];
-        }
 
         $exporter = new $exporterClass;
         $exporter->set_options($this->current_exporter);
@@ -143,7 +138,7 @@ class export
         $moustache_array = '<div class="ex__moustache">{{'.$moustache_array.'}}</div>';
 
         $field = new \update_acf_options_field;
-        $field->set_field('field_5f72e75c0f92c');
+        $field->set_field('field_5f7c1268d2959');
         $field->set_value('message', $moustache_array);
         $field->run();
     

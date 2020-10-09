@@ -59,7 +59,6 @@ class exporter
         $this->run_class('ex\content');
 
         $this->run_class('ex\export');
-
     }
 
 
