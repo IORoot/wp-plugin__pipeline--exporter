@@ -7,6 +7,8 @@ class oauth_google_client
 
     private $token_name;
 
+    private $refresh_token;
+
     private $scope;
 
 
@@ -20,12 +22,17 @@ class oauth_google_client
         $this->scope = $scope;
     }
 
+    public function set_refresh_token($refresh_token)
+    {
+        $this->refresh_token = $refresh_token;
+    }
+
 
     public function run()
     {
 
 
-        $this->refresh_token = get_transient( $this->token_name );
+        $this->refresh_token(get_transient( $this->token_name ));
 
 
         if ( false !== ( $this->refresh_token ) ) {
@@ -52,7 +59,7 @@ class oauth_google_client
      * 
      * @return void
      */
-    private function use_refresh_token()
+    public function use_refresh_token()
     {
         $this->client = new Google_Client();
         
