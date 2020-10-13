@@ -10,15 +10,18 @@
 /**
  * Add AJAX Callback
  */
-function ajax_load_list_field_choices()
+function ajax_load_label_field_choices()
 {
+
+    $choices[] = array('value' => 'none', 'label' => 'None');
+
     if (isset($_POST['board'])) {
         $board = $_POST['board'];
     }
 
-    $lists = get_lists($board);
+    $labels = get_labels($board);
 
-    foreach ($lists as $value => $label) {
+    foreach ($labels as $value => $label) {
         $choices[] = array('value' => $value, 'label' => $label);
     }
 
@@ -26,16 +29,16 @@ function ajax_load_list_field_choices()
 
     exit;
 }
-add_action('wp_ajax_load_list_field_choices', 'ajax_load_list_field_choices');
+add_action('wp_ajax_load_label_field_choices', 'ajax_load_label_field_choices');
 
 
 
 
 /**
- * Interact with the Trello API to get the lists
+ * Interact with the Trello API to get the labels
  * on the specific selected board.
  */
-function get_lists($board)
+function get_labels($board)
 {
 
     $client = new GuzzleHttp\Client();
@@ -45,20 +48,13 @@ function get_lists($board)
     );
     
 
+    // Get Authentication details
     if( have_rows('ex_auth_instance', 'option') ) {
-        
-        // while has rows
         while( have_rows('ex_auth_instance', 'option') ) {
-            
-            // instantiate row
             the_row();
-            
-            // vars
             $api_key = get_sub_field('field_5f844d18ebd3e');
             $token   = get_sub_field('field_5f844e1083944');
-            
         }
-        
     }
 
     $query = array(
@@ -67,7 +63,7 @@ function get_lists($board)
         'token'  => $token,
     );
 
-    $request = "https://api.trello.com/1/boards/".$board."/lists?" . http_build_query($query);
+    $request = "https://api.trello.com/1/boards/".$board."/labels?" . http_build_query($query);
 
 
     $response = $client->request(
@@ -76,21 +72,21 @@ function get_lists($board)
     );
 
 
-    $lists = json_decode($response->getBody()->getContents());
+    $labels = json_decode($response->getBody()->getContents());
 
 
-    foreach ($lists as $key => $list)
+    foreach ($labels as $key => $label)
     {
-        $choices[ $list->id ] = $list->name;
+        $choices[ $label->id ] = $label->name;
     }
 
     /**
      * Update the actual select field in ACF
      */
-    $list_field = new \ex\update_acf_options_field;
-    $list_field->set_field('field_5f845efb5ad4d');
-    $list_field->set_value('choices', $choices);
-    $list_field->run();
+    $label_field = new \ex\update_acf_options_field;
+    $label_field->set_field('field_5f8489754e199');
+    $label_field->set_value('choices', $choices);
+    $label_field->run();
 
 
     return $choices;

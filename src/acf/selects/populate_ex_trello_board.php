@@ -1,5 +1,17 @@
 <?php
 
+
+/**
+ * Add Javascript
+ */
+function enqueue_trello_board_js()
+{
+    $src = plugin_dir_url( __FILE__ ).'../js/dynamic-board-select.js';
+    wp_enqueue_script('trello_boards_js', $src, array('acf-input'));
+}
+add_action('acf/input/admin_enqueue_scripts', 'enqueue_trello_board_js');
+
+
 function acf_populate_ex_trello_location_board_choices( $field ) {
 
 

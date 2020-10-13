@@ -21,8 +21,6 @@ class ex_trello
 
     private $list;
 
-    private $card;
-
 
     public function set_options($options)
     {
@@ -37,12 +35,10 @@ class ex_trello
 
     public function run()
     {
-
         $this->get_auth();
         $this->get_guzzle_client();
         $this->create_cards();
-        
-        return;
+        return $this->results;
     }
 
 
@@ -74,6 +70,7 @@ class ex_trello
     {
         foreach ($this->options["post_types_trello"] as $this->card_id => $this->card)
         {
+            $this->parse_moustaches();
             $this->create_card();
         }
     }
@@ -87,12 +84,14 @@ class ex_trello
         );
         
         $query = array(
-            'key'    => $this->api_key,
-            'token'  => $this->token,
-            'idList' => $this->card['location']['list'],
-            'name'   => $this->card['details']['name'],
-            'desc'   => $this->card['details']['description'],
-            'due'    => $this->card['details']['due_date'],
+            'key'       => $this->api_key,
+            'token'     => $this->token,
+            'idList'    => $this->card['location']['list'],
+            'name'      => $this->card['details']['name'],
+            'desc'      => $this->card['details']['description'],
+            'due'       => $this->card['details']['due_date'],
+            'idLabels'  => implode(',',$this->card['details']['labels']),
+            'urlSource' => $this->card['details']['source_url'],
         );
 
         $request = "https://api.trello.com/1/cards?" . http_build_query($query);
@@ -102,12 +101,31 @@ class ex_trello
             $request
         );
 
-        $this->card = json_decode($response->getBody()->getContents());
+        $this->results = json_decode($response->getBody()->getContents());
+
+        $this->debug('export', $this->results);
+
     }
 
 
-    
-
-
+        /**
+     * parse_moustaches
+     * 
+     * Substitute any moustaches for real values.
+     * Split into two parts {{post_type:field}}
+     * Post_type = post, meta, image
+     * Field = Any found field.
+     *
+     * @return void
+     */
+    private function parse_moustaches()
+    {
+        foreach($this->data as $key => $post)
+        {
+            $parse = new \ex\parse\replace_moustaches_in_array($post, $this->card);
+            $this->card = $parse->get_results();
+        }
+        
+    }
 
 }

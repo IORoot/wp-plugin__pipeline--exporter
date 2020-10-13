@@ -22,6 +22,7 @@ require __DIR__.'/selects/populate_ex_job_schedule.php';
 // trello boad / list
 require __DIR__.'/selects/populate_ex_trello_board.php';
 require __DIR__.'/selects/populate_ex_trello_list.php';
+require __DIR__.'/selects/populate_ex_trello_labels.php';
 
 
 
