@@ -40,7 +40,7 @@ class ex_trello
 
         $this->get_auth();
         $this->get_guzzle_client();
-        $this->get_board();
+        $this->create_cards();
         
         return;
     }
@@ -70,28 +70,39 @@ class ex_trello
 
 
 
-    private function get_board()
+    private function create_cards()
     {
+        foreach ($this->options["post_types_trello"] as $this->card_id => $this->card)
+        {
+            $this->create_card();
+        }
+    }
 
+
+
+    private function create_card()
+    {
         $headers = array(
             'Accept' => 'application/json'
         );
         
         $query = array(
             'key'    => $this->api_key,
-            'token'  => $this->token
+            'token'  => $this->token,
+            'idList' => $this->card['location']['list'],
+            'name'   => $this->card['details']['name'],
+            'desc'   => $this->card['details']['description'],
+            'due'    => $this->card['details']['due_date'],
         );
 
-        $request = "https://api.trello.com/1/members/me/boards?" . http_build_query($query);
+        $request = "https://api.trello.com/1/cards?" . http_build_query($query);
 
         $response = $this->client->request(
-            'GET', 
+            'POST', 
             $request
         );
 
-
-        $this->board = json_decode($response->getBody()->getContents());
-
+        $this->card = json_decode($response->getBody()->getContents());
     }
 
 
