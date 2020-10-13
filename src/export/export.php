@@ -16,6 +16,7 @@ class export
      * @var array
      */
     public $options;
+    public $auth;
 
     /**
      * collection variable
@@ -41,6 +42,12 @@ class export
     public function set_options($options)
     {
         $this->options = $options['ex_job_export_id'];
+    }
+
+
+    public function set_auth($auth)
+    {
+        $this->auth = $auth;
     }
 
     public function set_collection($collection)
@@ -71,8 +78,14 @@ class export
     {
         foreach($this->options['ex_export_target_mapping'] as $this->current_exporter)
         {
+            $this->add_auth();
             $this->run_exporter();
         }
+    }
+
+    private function  add_auth()
+    {
+        $this->current_exporter['auth'] = $this->auth;
     }
 
 

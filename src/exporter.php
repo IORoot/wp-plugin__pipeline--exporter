@@ -68,6 +68,7 @@ class exporter
     {
         $class = new $classname;
         $class->set_options($this->options[$this->_export_key]);
+        $class->set_auth($this->options['auth']);
         $class->set_collection($this->results);
         $this->results[$classname] = $class->run();
     }

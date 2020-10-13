@@ -32,7 +32,7 @@ class oauth_google_client
     {
 
 
-        $this->refresh_token(get_transient( $this->token_name ));
+        $this->refresh_token = get_transient( $this->token_name );
 
 
         if ( false !== ( $this->refresh_token ) ) {

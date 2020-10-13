@@ -9,6 +9,7 @@ class content
     use debug;
 
     public $options;
+    public $auth;
 
     public $results;
 
@@ -17,6 +18,11 @@ class content
     public function set_options($options)
     {
         $this->options = $options;
+    }
+
+    public function set_auth($auth)
+    {
+        $this->auth = $auth;
     }
 
     public function set_collection($collection)

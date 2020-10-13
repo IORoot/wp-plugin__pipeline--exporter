@@ -5,7 +5,7 @@ namespace ex;
 class options
 {
 
-    public $repeaters = [ 'job', 'content', 'schedule', 'export', 'housekeep'];
+    public $repeaters = [ 'job', 'content', 'auth', 'schedule', 'export', 'housekeep'];
     public $prefix = 'ex';
     public $main_repeater = 'job';
 
@@ -30,7 +30,11 @@ class options
 
     private function add_randoms()
     {
+        // Add save-only from side panel
         $this->fields[$this->main_repeater]['saveonly'] = get_field('ex_save_settings_only', 'option');
+
+        // Add auth details from flexible content.
+        $this->fields[$this->main_repeater]['auth'] = $this->fields['auth'];
     }
 
 
