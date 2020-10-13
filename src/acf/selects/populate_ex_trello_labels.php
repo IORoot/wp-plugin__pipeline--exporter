@@ -66,10 +66,15 @@ function get_labels($board)
     $request = "https://api.trello.com/1/boards/".$board."/labels?" . http_build_query($query);
 
 
-    $response = $client->request(
-        'GET', 
-        $request
-    );
+    try {
+        $response = $client->request(
+            'GET', 
+            $request
+        );
+    } catch (\Exception $e) {
+        var_dump($e->getMessage(), true);
+        die;
+    }
 
 
     $labels = json_decode($response->getBody()->getContents());

@@ -10,15 +10,15 @@
 /**
  * Add AJAX Callback
  */
-function ajax_load_list_field_choices()
+function ajax_load_custom_fields_choices()
 {
     if (isset($_POST['board'])) {
         $board = $_POST['board'];
     }
 
-    $lists = get_lists($board);
+    $custom_fields = get_custom_fields($board);
 
-    foreach ($lists as $value => $label) {
+    foreach ($custom_fields as $value => $label) {
         $choices[] = array('value' => $value, 'label' => $label);
     }
 
@@ -26,16 +26,16 @@ function ajax_load_list_field_choices()
 
     exit;
 }
-add_action('wp_ajax_load_list_field_choices', 'ajax_load_list_field_choices');
+add_action('wp_ajax_load_custom_fields_choices', 'ajax_load_custom_fields_choices');
 
 
 
 
 /**
- * Interact with the Trello API to get the lists
+ * Interact with the Trello API to get the custom_fields
  * on the specific selected board.
  */
-function get_lists($board)
+function get_custom_fields($board)
 {
 
     $client = new GuzzleHttp\Client();
@@ -62,12 +62,12 @@ function get_lists($board)
     }
 
     $query = array(
-        'fields' => 'name',
         'key'    => $api_key,
         'token'  => $token,
     );
 
-    $request = "https://api.trello.com/1/boards/".$board."/lists?" . http_build_query($query);
+    $request = "https://api.trello.com/1/boards/".$board."/customFields?" . http_build_query($query);
+
 
 
     try {
@@ -81,21 +81,21 @@ function get_lists($board)
     }
 
 
-    $lists = json_decode($response->getBody()->getContents());
+    $custom_fields = json_decode($response->getBody()->getContents());
 
 
-    foreach ($lists as $key => $list)
+    foreach ($custom_fields as $key => $custom_field)
     {
-        $choices[ $list->id ] = $list->name;
+        $choices[ $custom_field->id ] = $custom_field->name;
     }
 
     /**
      * Update the actual select field in ACF
      */
-    $list_field = new \ex\update_acf_options_field;
-    $list_field->set_field('field_5f845efb5ad4d');
-    $list_field->set_value('choices', $choices);
-    $list_field->run();
+    $custom_field_field = new \ex\update_acf_options_field;
+    $custom_field_field->set_field('field_5f85a329b1641');
+    $custom_field_field->set_value('choices', $choices);
+    $custom_field_field->run();
 
 
     return $choices;
