@@ -1,6 +1,6 @@
 <?php
 
-function acf_populate_ex_post_types_location_board_choices( $field ) {
+function acf_populate_ex_trello_location_board_choices( $field ) {
 
 
     $client = new GuzzleHttp\Client();
@@ -28,6 +28,7 @@ function acf_populate_ex_post_types_location_board_choices( $field ) {
 
 
     $query = array(
+        'fields' => 'name',
         'key'    => $api_key,
         'token'  => $token,
     );
@@ -56,4 +57,4 @@ function acf_populate_ex_post_types_location_board_choices( $field ) {
 
 }
 
-add_filter('acf/load_field/key=field_5f845ee95ad4c', 'acf_populate_ex_post_types_location_board_choices');
+add_filter('acf/load_field/key=field_5f845ee95ad4c', 'acf_populate_ex_trello_location_board_choices');
