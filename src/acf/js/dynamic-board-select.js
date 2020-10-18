@@ -142,7 +142,7 @@
 		}
 		
 		// get the list select field, and remove all exisiting choices
-		var custom_fields_select = $('[data-key="field_5f85a329b1641"] select');
+		var custom_fields_select = $('[data-key="field_5f8979aa7d0e5"] select');
 		custom_fields_select.empty();
         
         

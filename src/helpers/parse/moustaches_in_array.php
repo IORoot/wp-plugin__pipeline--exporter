@@ -10,15 +10,23 @@ class replace_moustaches_in_array
     private $post_object;
     private $array_to_change;
 
+    /**
+     * If the supplied post_object is a
+     * an array of posts, switch this to
+     * true.
+     */
+    private $multi_posts;
+
     private $post;
     private $meta;
 
     private $current_value;
 
-    public function __construct($post_object, $array_to_change)
+    public function __construct($post_object, $array_to_change, $multi_posts = false)
     {
         $this->post_object = $post_object;
         $this->array_to_change = $array_to_change;
+        $this->multi_posts = $multi_posts;
         $this->run();
     }
 
@@ -82,8 +90,13 @@ class replace_moustaches_in_array
         foreach($matches as $match)
         {
 
-            // strip off the 0_ 1_ 2_ at the beginning of the moustache.
-            $match[1] = preg_replace('/^\d+\_/','', $match[1]);
+            /**
+             * strip off the 0_ 1_ 2_ at the beginning of the moustache
+             * if this is a single post.
+             */
+            if ($this->multi_posts == false) {
+                $match[1] = preg_replace('/^\d+\_/', '', $match[1]);
+            }
 
             if ( strpos($match[1],'image:') !== false)
             {

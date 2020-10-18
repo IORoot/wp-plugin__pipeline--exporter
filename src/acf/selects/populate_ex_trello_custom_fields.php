@@ -12,17 +12,22 @@
  */
 function ajax_load_custom_fields_choices()
 {
+    $choices = [];
+
     if (isset($_POST['board'])) {
         $board = $_POST['board'];
     }
 
-    $custom_fields = get_custom_fields($board);
+    $fields = get_custom_fields($board);
 
-    foreach ($custom_fields as $value => $label) {
-        $choices[] = array('value' => $value, 'label' => $label);
+    foreach ($fields as $value => $field) {
+        $choices[] = array('value' => $value, 'label' => $field);
     }
 
-    echo json_encode($choices);
+    if (!empty($choices))
+    {
+        echo json_encode($choices);
+    }
 
     exit;
 }
@@ -80,25 +85,20 @@ function get_custom_fields($board)
         die;
     }
 
-
     $custom_fields = json_decode($response->getBody()->getContents());
 
-
-    foreach ($custom_fields as $key => $custom_field)
-    {
-        $choices[ $custom_field->id ] = $custom_field->name;
+    foreach ($custom_fields as $key => $custom_field) {
+        $choices[$custom_field->id] = $custom_field->name;
     }
 
     /**
-     * Update the actual select field in ACF
+     * Add parent flexible fields.
      */
-    $custom_field_field = new \ex\update_acf_options_field;
-    $custom_field_field->set_field('field_5f85a329b1641');
-    $custom_field_field->set_value('choices', $choices);
-    $custom_field_field->run();
-
+    $acf_custom_field = new \ex\update_acf_options_field;
+    $acf_custom_field->set_field('field_5f8979aa7d0e5');
+    $acf_custom_field->set_value('choices', $choices);
+    $result = $acf_custom_field->run();
 
     return $choices;
 }
-
 
