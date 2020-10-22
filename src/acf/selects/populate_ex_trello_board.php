@@ -48,14 +48,18 @@ function acf_populate_ex_trello_location_board_choices( $field ) {
     $request = "https://api.trello.com/1/members/me/boards?" . http_build_query($query);
 
 
-
-    $response = $client->request(
-        'GET', 
-        $request
-    );
-
-
-    $boards = json_decode($response->getBody()->getContents());
+    try {
+        $response = $client->request(
+            'GET', 
+            $request
+        );
+    
+    
+        $boards = json_decode($response->getBody()->getContents());
+    } catch (exception $e)
+    {
+        
+    }
 
 
     foreach ($boards as $key => $board)

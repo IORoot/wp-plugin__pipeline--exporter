@@ -53,9 +53,6 @@ class add_card
 
         $this->update_card_with_custom_fields();
 
-
-        
-
     }
 
 
@@ -105,12 +102,12 @@ class add_card
                 $request,
                 $headers
             );
+
+            $this->results = json_decode($response->getBody()->getContents());
+
         } catch (\Exception $e) {
             $this->debug('export', print_r($e->getMessage(), true));
         }
-        
-
-        $this->results = json_decode($response->getBody()->getContents());
 
         $this->debug('export', $this->results);
 
