@@ -147,6 +147,8 @@ class export
             $moustache_array[] = preg_replace('/^post_/', '', $new_key);
         }
 
+
+        // Update the moustache textbox that lists all available.
         $moustache_array = implode('}}</div> <div class="ex__moustache">{{',$moustache_array);
         $moustache_array = '<div class="ex__moustache">{{'.$moustache_array.'}}</div>';
 

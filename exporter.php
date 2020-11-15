@@ -34,3 +34,4 @@ require __DIR__.'/src/acf/acf_init.php';
 //  │                          Setup REST Endpoint                            │
 //  └─────────────────────────────────────────────────────────────────────────┘
 new new_rest_endpoint;
+

@@ -1,3 +1,5 @@
 client_secret*.*
 service_account.json
 test_refresh_token*.*
+package-lock.json
+node_modules
