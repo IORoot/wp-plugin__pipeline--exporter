@@ -51,7 +51,9 @@ function get_lists($board)
         while( have_rows('ex_auth_instance', 'option') ) {
             
             // instantiate row
-            the_row();
+            $row = the_row();
+
+            if ($row['acf_fc_layout'] != 'trello'){ continue; }
             
             // vars
             $api_key = get_sub_field('field_5f844d18ebd3e');

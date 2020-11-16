@@ -51,7 +51,11 @@ function get_labels($board)
     // Get Authentication details
     if( have_rows('ex_auth_instance', 'option') ) {
         while( have_rows('ex_auth_instance', 'option') ) {
-            the_row();
+            
+            $row = the_row();
+
+            if ($row['acf_fc_layout'] != 'trello'){ continue; }
+
             $api_key = get_sub_field('field_5f844d18ebd3e');
             $token   = get_sub_field('field_5f844e1083944');
         }

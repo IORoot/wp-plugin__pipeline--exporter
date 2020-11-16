@@ -28,7 +28,9 @@ function acf_populate_ex_trello_location_board_choices( $field ) {
         while( have_rows('ex_auth_instance', 'option') ) {
             
             // instantiate row
-            the_row();
+            $row = the_row();
+
+            if ($row['acf_fc_layout'] != 'trello'){ continue; }
             
             // vars
             $api_key = get_sub_field('field_5f844d18ebd3e');
@@ -49,6 +51,7 @@ function acf_populate_ex_trello_location_board_choices( $field ) {
 
 
     try {
+
         $response = $client->request(
             'GET', 
             $request
@@ -56,9 +59,10 @@ function acf_populate_ex_trello_location_board_choices( $field ) {
     
     
         $boards = json_decode($response->getBody()->getContents());
+
     } catch (exception $e)
     {
-        
+        return $field;
     }
 
 
@@ -66,7 +70,6 @@ function acf_populate_ex_trello_location_board_choices( $field ) {
     {
         $field['choices'][ $board->id ] = $board->name;
     }
-
 
 
     return $field;

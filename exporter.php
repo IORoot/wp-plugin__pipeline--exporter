@@ -5,7 +5,7 @@
  * @wordpress-plugin
  * Plugin Name:       _ANDYP - Pipeline - Exporter
  * Plugin URI:        http://londonparkour.com
- * Description:       <strong>🔌PLUGIN</strong> | <em>ANDYP > Exporter</em> | Schedule export of posts to targets.
+ * Description:       <strong>🤖 Pipeline</strong> | <em>Pipeline > Universal Exporter</em> | Schedule export of posts to targets.
  * Version:           1.0.0
  * Author:            Andy Pearson
  * Author URI:        https://londonparkour.com
