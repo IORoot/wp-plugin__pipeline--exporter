@@ -42,8 +42,8 @@ function exporter_acf_add_menus_init() {
         
         $args = array(
 
-            'page_title' => '<span class="mdi mdi-truck-delivery" style="color:#53A5E3"></span> Universal Exporter',
-            'menu_title' => '<span class="mdi mdi-truck-delivery" style="color:#53A5E3"></span> Universal Exporter',
+            'page_title' => '<span class="mdi mdi-truck-delivery" style="color:#53A5E3"></span> Exporter',
+            'menu_title' => '<span class="mdi mdi-truck-delivery" style="color:#53A5E3"></span> Exporter',
             'menu_slug' => 'exporter',
             'capability' => 'manage_options',
             'position' => '4',
