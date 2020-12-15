@@ -85,6 +85,10 @@ class exporter
         $this->run_class('ex\content');
 
         $this->run_class('ex\export');
+
+        $this->run_class('ex\housekeep');
+
+        // $this->run_class('ex\schedule');
     }
 
 

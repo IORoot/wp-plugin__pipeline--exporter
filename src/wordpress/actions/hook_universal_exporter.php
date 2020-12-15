@@ -1,6 +1,6 @@
 <?php
 
-namespace ue\action;
+namespace ex\action;
 
 class universal_exporter {
 
