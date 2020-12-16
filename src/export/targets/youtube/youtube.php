@@ -25,6 +25,10 @@ class ex_youtube
 
     private $service;
 
+    private $error;
+
+
+
     public function set_options($options)
     {
         $this->options = $options;
@@ -33,6 +37,11 @@ class ex_youtube
     public function set_data($data)
     {
         $this->data = $data;
+    }
+
+    public function get_error()
+    {
+        return $this->error;
     }
 
 
@@ -54,7 +63,8 @@ class ex_youtube
             $client->run();
             $this->client = $client->get_client();
         } catch (Exception $e) {
-            $this->debug('export', $e->getMessage());
+            $this->error = 'Error: Google Client Error. Returned : ' . print_r($e->getMessage(), true);
+            $this->debug('export', print_r($e->getMessage(), true));
         }
         
     }
@@ -62,6 +72,11 @@ class ex_youtube
 
     private function do_requests()
     {
+        if (empty($this->options["post_types_youtube"])){ 
+            $this->error = 'Warn: No YouTube export instances found.';
+            return; 
+        }
+
         foreach ($this->options["post_types_youtube"] as $this->request_type)
         {
             $this->run_youtube_request();
@@ -84,6 +99,7 @@ class ex_youtube
     {
         if ($this->client == null)
         {
+            $this->error = 'Error: No Google Client created.';
             return true;
         }
         return false;
@@ -93,6 +109,7 @@ class ex_youtube
     {
         if (get_transient('YT_OAUTH_REFRESH_TOKEN') == false)
         {
+            $this->error = 'Error: No transient YT_OAUTH_REFRESH_TOKEN found.';
             return true;
         }
         return false;

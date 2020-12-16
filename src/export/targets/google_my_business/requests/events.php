@@ -233,13 +233,13 @@ class events
             );
         } 
         catch (\Google_Service_Exception $e) {
-            $this->results = 'Caught \Google_Service_Exception: ' .  $e->getMessage() . "\n";
+            $this->results = 'Caught \Google_Service_Exception: ' .  print_r($e->getMessage(), true) . "\n";
         }
         catch (\Google_Exception $e) {
-            $this->results = 'Caught \Google_Exception: ' .  $e->getMessage() . "\n";
+            $this->results = 'Caught \Google_Exception: ' .  print_r($e->getMessage(), true) . "\n";
         }
         catch (\Exception $e) {
-            $this->results = 'Caught \Exception: ' .  $e->getMessage() . "\n";
+            $this->results = 'Caught \Exception: ' .  print_r($e->getMessage(), true) . "\n";
         }
 
     }

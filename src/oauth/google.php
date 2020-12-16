@@ -30,17 +30,16 @@ class oauth_google_client
 
     public function run()
     {
-
-        $this->refresh_token = get_transient( $this->token_name );
+        if (empty($this->refresh_token)){
+            $this->refresh_token = get_transient( $this->token_name );
+        }
 
         if ( false !== ( $this->refresh_token ) ) {
             $this->use_refresh_token();
             return;
         }
 
-        
         return;
-        
     }
 
 
@@ -57,7 +56,7 @@ class oauth_google_client
      * 
      * @return void
      */
-    public function use_refresh_token()
+    private function use_refresh_token()
     {
         $this->client = new Google_Client();
         

@@ -162,19 +162,19 @@ class upload_thumbnail
             $this->client->setDefer(false);
 
             // send to debugger.
-            $this->debug('export', $this->status);
+            $this->debug('export', print_r($this->status, true));
 
             $this->result = $this->status;
         } 
         catch (\Google_Service_Exception $e) {
             $this->result = 'Caught \Google_Service_Exception: ' .  print_r($e->getMessage(), true) . "\n" . 'Request was: ' . print_r($this->localPost,true);
-            $this->debug('export', $e->getMessage());
+            $this->debug('export', print_r($e->getMessage(), true));
             $this->debug('export', $this->result);
             $this->debug('export', 'CHECK - Has channel got custom thumbnails enabled?');
         }
         catch (\Exception $e) {
             $this->result = 'Caught \exception: ' .  print_r($e->getMessage(),true) . "\n" . 'Request was: ' . print_r($this->localPost, true);
-            $this->debug('export', $e->getMessage());
+            $this->debug('export', print_r($e->getMessage(), true));
         }
 
     }

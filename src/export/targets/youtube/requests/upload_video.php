@@ -45,6 +45,7 @@ class upload_video
         $this->build_reliable_settings();
         $this->insert_video();
         if ($this->isFailed()){ return; }
+
         $this->update_thumbnail();
     }
     
@@ -159,16 +160,16 @@ class upload_video
          */
         try {
 
-        /**
-         * Get a new YouTube Object.
-         * 
-         * Services are called through queries to service specific objects. 
-         * These are created by constructing the service object, and passing an 
-         * instance of Google_Client to it. Google_Client contains the IO, authentication 
-         * and other classes required by the service to function, and the service informs 
-         * the client which scopes it uses to provide a default when authenticating a user.
-         */
-        $this->service = new \Google_Service_YouTube($this->client);
+            /**
+             * Get a new YouTube Object.
+             * 
+             * Services are called through queries to service specific objects. 
+             * These are created by constructing the service object, and passing an 
+             * instance of Google_Client to it. Google_Client contains the IO, authentication 
+             * and other classes required by the service to function, and the service informs 
+             * the client which scopes it uses to provide a default when authenticating a user.
+             */
+            $this->service = new \Google_Service_YouTube($this->client);
 
             // Create a request for the API's videos.insert method to create and upload the video.
             $this->insertRequest = $this->service->videos->insert("status,snippet", $this->video);
@@ -200,18 +201,18 @@ class upload_video
             $this->client->setDefer(false);
 
             // send to debugger.
-            $this->debug('export', $this->returned);
+            $this->debug('export', print_r($this->returned, true));
 
-            $this->result['video'] = $this->returned;
+            $this->results['video'] = $this->returned;
         } 
         catch (\Google_Service_Exception $e) {
             $this->results = 'Caught \Google_Service_Exception: ' .  print_r($e->getMessage(), true) . "\n" . 'Request was: ' . print_r($this->localPost,true);
-            $this->debug('export', $e->getMessage());
+            $this->debug('export', print_r($e->getMessage(), true));
             $this->debug('export', 'CHECK - Have you run out of quota? INSERTS are 1600 credits! (only about 8 per day).');
         }
         catch (\Exception $e) {
             $this->results = 'Caught \exception: ' .  print_r($e->getMessage(),true) . "\n" . 'Request was: ' . print_r($this->localPost, true);
-            $this->debug('export', $e->getMessage());
+            $this->debug('export', print_r($e->getMessage(), true));
         }
 
     }
@@ -220,6 +221,8 @@ class upload_video
 
     private function update_thumbnail()
     {
+        if ($this->is_thumbnail_valid() === false){ $this->result['thumbnail'] = 'Invalid Thumbnail.'; return; }
+
         $this->thumbnail = new upload_thumbnail();
         $this->thumbnail->set_imageURL(trim($this->options['details']['thumbnail_path']));
         $this->thumbnail->set_videoId($this->returned['id']);
@@ -229,6 +232,30 @@ class upload_video
     }
 
 
+
+    //  ┌─────────────────────────────────────────────────────────────────────────┐
+    //  │                                                                         │░
+    //  │                                                                         │░
+    //  │                                 CHECKS                                  │░
+    //  │                                                                         │░
+    //  │                                                                         │░
+    //  └─────────────────────────────────────────────────────────────────────────┘░
+    //   ░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░
+
+
+    private function is_thumbnail_valid()
+    {
+        // are there moustaches?
+        if (strpos($this->options['details']['thumbnail_path'], '{{', ) !== false){ return false; }
+
+        // are there arrows?
+        if (strpos($this->options['details']['thumbnail_path'], '->', ) !== false){ return false; }
+
+        // does file exist?
+        if (!file_exists( WP_CONTENT_DIR . '/uploads/' . $this->options['details']['thumbnail_path'])){ return false; }
+
+        return true;
+    }
 
 
     private function isDisabled()
