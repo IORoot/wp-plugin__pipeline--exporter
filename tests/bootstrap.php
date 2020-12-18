@@ -23,11 +23,25 @@ require_once $_tests_dir . '/includes/functions.php';
  * Manually load the plugin being tested.
  */
 function _manually_load_plugin() {
-	require dirname( dirname( __FILE__ ) ) . '/vendor/advanced-custom-fields/acf.php';
-	require dirname( dirname( __FILE__ ) ) . '/exporter.php';
+	
+	/**
+     * selectively use ACF in plugins directory or in current directory,
+     * depending on GITHUB CI or regular PHPUNIT
+     */
+    $path = '';
+    if (!is_dir(dirname(dirname(__FILE__)) . '/advanced-custom-fields-pro')) {
+        $path = '../';
+    }
+	require dirname(dirname(__FILE__)) . '/'.$path.'advanced-custom-fields-pro/acf.php';	// ACF
+	require dirname(dirname(__FILE__)) . '/'.$path.'andyp_oauth_youtube/oauth_youtube.php';	// needed to test oAUTH
+	require dirname(dirname(__FILE__)) . '/'.$path.'andyp_oauth_gmb/oauth_gmb.php';			// needed to test oAUTH
+	require dirname(dirname(__FILE__)) . '/exporter.php';								   // This Plugin
 
 	/**
-	 * OAUTH Dependencies
+	 * SECRETS and OAUTH Dependencies
+	 * 
+	 * This file will contain the username / password for the 
+	 * creator studio account.
 	 * 
 	 * This file will manually declare the refresh token - only way
 	 * to do this because of the whole oAuth separate window iframe
@@ -36,13 +50,16 @@ function _manually_load_plugin() {
 	 * Run that and get the refresh_token then add it to this file.
 	 * 
 	 */
-	require dirname( dirname( __FILE__ ) ) . '/tests/test_refresh_token.php';
+	require dirname( dirname( __FILE__ ) ) . '/tests/test_secrets.php';
 }
 tests_add_filter( 'muplugins_loaded', '_manually_load_plugin' );
 
 // Start up the WP testing environment.
 require $_tests_dir . '/includes/bootstrap.php';
 
+/**
+ * Constants
+ */
 $upload_dir = wp_upload_dir();
 define('UPLOAD_DIR', 'wp-content/uploads'. $upload_dir['subdir'] );
 define('DIR_DATA', dirname(__FILE__) . '/data');

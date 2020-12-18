@@ -46,11 +46,14 @@ class call_to_action
         if ($this->isDisabled()){ return; }
         
         $this->parse_moustaches();
-        $this->build_CTA();
+
         $this->build_mediaItem();
+        if (!$this->media){ return; }
+
+        $this->build_CTA();
         $this->build_localPost();
         $this->create_localPost();
-        // $this->attach_media();
+
         $this->debug('export', $this->results);
     }
     
@@ -93,20 +96,6 @@ class call_to_action
 
 
     /**
-     * build_CTA
-     * 
-     * Generate a CTA object.
-     *
-     * @return void
-     */
-    private function build_CTA()
-    {
-        $this->CTA = new \Google_Service_MyBusiness_CallToAction();
-        $this->CTA->setActionType($this->options["settings"]["action_type"]);
-        $this->CTA->setUrl($this->options["settings"]["url"]);
-    }
-
-    /**
      * build_mediaItem
      * 
      * Generate a media object
@@ -120,6 +109,22 @@ class call_to_action
         $media->set_client($this->client);
         $this->media = $media->run();
     }
+
+
+    /**
+     * build_CTA
+     * 
+     * Generate a CTA object.
+     *
+     * @return void
+     */
+    private function build_CTA()
+    {
+        $this->CTA = new \Google_Service_MyBusiness_CallToAction();
+        $this->CTA->setActionType($this->options["settings"]["action_type"]);
+        $this->CTA->setUrl($this->options["settings"]["url"]);
+    }
+
 
     /**
      * build_localPost
@@ -152,7 +157,7 @@ class call_to_action
         $this->service = new \Google_Service_MyBusiness($this->client);
 
         try {
-            $this->post = $this->service->accounts_locations_localPosts->create(
+            $this->results = $this->service->accounts_locations_localPosts->create(
                 $this->options["locationid"],
                 $this->localPost
             );
@@ -165,86 +170,6 @@ class call_to_action
         }
 
     }
-
-
-
-    /**
-     *          NOT CURRENTLY WORKING WITH VIDEOS!
-     */
-
-    /**
-     * Directly uploading media is problematic because:
-     * 1. Videos are not supported.
-     * 2. Attaching images while creating doesn't work.
-     * 
-     * So upload the image / video first, the patch the localpost
-     * with the media.
-     */
-    private function attach_media()
-    {
-        $this->get_uploaded_media();
-        $this->update_existing_post();
-    }
-
-
-    private function get_uploaded_media()
-    {
-        /**
-         * Get the uploaded media item
-         */
-        try {
-            $this->mediaItem = $this->service->accounts_locations_media->get(
-                $this->media->getName()
-            );
-        } 
-        catch (\Google_Service_Exception $e) {
-            $this->results = 'Caught \Google_Service_Exception: ' .  print_r($e->getMessage(), true) . "\n" . 'Request was: ' . print_r($this->localPost,true);
-        }
-        catch (\Exception $e) {
-            $this->results = 'Caught \exception: ' .  print_r($e->getMessage(),true) . "\n" . 'Request was: ' . print_r($this->localPost, true);
-        }
-    }
-
-
-    private function update_existing_post()
-    {
-
-        /**
-         * Patch the LocalPost
-         */
-        try {
-
-            $insertedName = $this->post->getName();
-
-            $updatePost = $this->post;
-            $updatePost->setSummary('testing testing');
-            $updatePost->setMedia($this->mediaItem);
-            $updateMask = array('updateMask' => 'media');
-
-            $this->results = $this->service->accounts_locations_localPosts->patch(
-                $insertedName,
-                $updatePost,
-                $updateMask
-            );
-        } 
-        catch (\Google_Service_Exception $e) {
-            $this->results = 'Caught \Google_Service_Exception: ' .  print_r($e->getMessage(), true) . "\n" . 'Request was: ' . print_r($this->localPost,true);
-        }
-        catch (\Google_Exception $e) {
-            $this->results = 'Caught \Google_Exception: ' .  print_r($e->getMessage(), true) . "\n" . 'Request was: ' . print_r($this->localPost,true);
-        }
-        catch (\Exception $e) {
-            $this->results = 'Caught \exception: ' .  print_r($e->getMessage(),true) . "\n" . 'Request was: ' . print_r($this->localPost, true);
-        }
-
-    }
-
-
-
-
-
-
-
 
 
 

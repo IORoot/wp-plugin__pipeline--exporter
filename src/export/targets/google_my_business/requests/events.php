@@ -97,7 +97,7 @@ class events
     {
         foreach($this->data as $posttype => $post)
         {
-            $parse = new \ex\parse\replace_moustaches_in_array($post['ID'], $this->options);
+            $parse = new \ex\parse\replace_moustaches_in_array($post, $this->options);
             $this->options = $parse->get_results();
         }
     }
@@ -192,10 +192,6 @@ class events
         $media->set_options($this->options);
         $media->set_client($this->client);
         $this->media = $media->run();
-        
-        // $this->media = new \Google_Service_MyBusiness_MediaItem();
-        // $this->media->setMediaFormat($this->options['settings']['media_type']);
-        // $this->media->setSourceUrl($this->options['settings']['media_source_url']);
     }
 
     /**

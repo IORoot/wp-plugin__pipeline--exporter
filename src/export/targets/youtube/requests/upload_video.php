@@ -34,6 +34,7 @@ class upload_video
 
     public function run()
     {
+        
         if ($this->isDisabled()){ return; }
         $this->parse_moustaches();
         if ($this->isBadVideo()){ return; }
@@ -221,7 +222,7 @@ class upload_video
 
     private function update_thumbnail()
     {
-        if ($this->is_thumbnail_valid() === false){ $this->result['thumbnail'] = 'Invalid Thumbnail.'; return; }
+        if ($this->is_thumbnail_valid() === false){ return; }
 
         $this->thumbnail = new upload_thumbnail();
         $this->thumbnail->set_imageURL(trim($this->options['details']['thumbnail_path']));
@@ -245,11 +246,13 @@ class upload_video
 
     private function is_thumbnail_valid()
     {
+        if (empty($this->options['details']['thumbnail_path'])){ return false; }
+
         // are there moustaches?
-        if (strpos($this->options['details']['thumbnail_path'], '{{', ) !== false){ return false; }
+        if (strpos($this->options['details']['thumbnail_path'], '{{') !== false){ return false; }
 
         // are there arrows?
-        if (strpos($this->options['details']['thumbnail_path'], '->', ) !== false){ return false; }
+        if (strpos($this->options['details']['thumbnail_path'], '->') !== false){ return false; }
 
         // does file exist?
         if (!file_exists( WP_CONTENT_DIR . '/uploads/' . $this->options['details']['thumbnail_path'])){ return false; }

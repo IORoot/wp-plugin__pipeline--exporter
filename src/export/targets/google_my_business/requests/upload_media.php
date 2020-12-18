@@ -27,15 +27,33 @@ class upload_media
 
     public function run()
     {
-        $this->upload_curl();
+        if ( !$this->are_options_valid() ) { return false; };
+        
+        $this->upload_image_via_curl();
         $this->process_result();
         return $this->media;
     }
 
 
+    private function are_options_valid()
+    {
+        // no value.
+        if (empty($this->options["settings"]["media_source_url"])){ return false;}
+
+        return true;
+    }
 
 
-    private function upload_curl()
+    /**
+     * upload_curl function
+     * 
+     * Use a REAL Image URL that's accessible from the web
+     * and GMB can access.
+     * Won't work with internal vagrant images.
+     *
+     * @return void
+     */
+    private function upload_image_via_curl()
     {
 
         try {
@@ -59,7 +77,6 @@ class upload_media
                 'Authorization: Bearer ' . $token['access_token'] 
             ));
             curl_setopt($ch, CURLOPT_POST, 1);
-            curl_setopt($ch, CURLOPT_SAFE_UPLOAD, false);
             curl_setopt($ch, CURLOPT_POSTFIELDS, $json);
             curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
             curl_setopt($ch, CURLOPT_TIMEOUT, 30);
@@ -70,10 +87,10 @@ class upload_media
 
         } 
         catch (\Google_Service_Exception $e) {
-            $this->results = 'Caught \Google_Service_Exception: ' .  print_r($e->getMessage(), true) . "\n" . 'Request was: ' . print_r($this->localPost,true);
+            $this->results = 'Caught \Google_Service_Exception: ' .  print_r($e->getMessage(), true);
         }
         catch (\Exception $e) {
-            $this->results = 'Caught \exception: ' .  print_r($e->getMessage(),true) . "\n" . 'Request was: ' . print_r($this->localPost, true);
+            $this->results = 'Caught \exception: ' .  print_r($e->getMessage(),true);
         }
 
     }

@@ -8,7 +8,7 @@
  */
 
 /**
- * @testdox Testing the \ue\housekeep class
+ * @testdox Testing the \ex_youtube class
  */
 class ex_youtubeTest extends WP_UnitTestCase
 {

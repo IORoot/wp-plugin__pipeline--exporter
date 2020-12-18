@@ -69,13 +69,16 @@ class ex_creator_studio
         return;
     }
 
-
+    public function get_results()
+    {
+        return $this->results;
+    }
 
 
 
     private function set_auth()
     {
-        foreach ($this->options["auth"] as $auth)
+        foreach ($this->options['auth'] as $auth)
         {
             if ($auth['acf_fc_layout'] != 'igs'){
                 continue;
@@ -150,10 +153,6 @@ class ex_creator_studio
 
             // check enabled
             if ($this->post['enabled'] == false){ continue; }
-
-            // $this->get_status(); 
-            // $this->get_debug_log();
-            // $this->post_clear_cookies();
 
             // Video Download
             $this->post_download($this->post['content_url'], './videos/' . $this->options["auth"]["video_file"]);

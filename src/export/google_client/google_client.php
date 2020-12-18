@@ -1,5 +1,26 @@
 <?php
 
+
+/**
+ * oauth_google_client class
+ * 
+ * This is a wrapper class for the official google client 
+ * class that uses the services class.
+ * 
+ * Class tree :
+ * 
+ *      ex_youtube
+ *          |
+ *   oauth_google_client
+ *          |
+ *     Google_Client
+ *          |
+ *  Google_Service_YouTube
+ *          |
+ *          |
+ *      youtube.com
+ * 
+ */
 class oauth_google_client
 {
 
@@ -58,8 +79,9 @@ class oauth_google_client
      */
     private function use_refresh_token()
     {
+
         $this->client = new Google_Client();
-        
+
         $this->client->setAuthConfigFile(GOOGLE_APPLICATION_CREDENTIALS);
 
         $this->client->addScope($this->scope);

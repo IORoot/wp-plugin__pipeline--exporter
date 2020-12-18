@@ -1,12 +1,9 @@
 <?php
 
-// namespace ex\exporter;
 
 class ex_google_my_business
 {
-    
-    use \ex\debug;
-    
+
     private $options;
 
     private $data;
@@ -14,6 +11,8 @@ class ex_google_my_business
     private $results;
 
     private $client;
+
+    private $error;
 
     public function set_options($options)
     {
@@ -25,13 +24,31 @@ class ex_google_my_business
         $this->data = $data;
     }
 
+    public function get_error()
+    {
+        return $this->error;
+    }
+
+    public function get_results()
+    {
+        return $this->results;
+    }
+
+    public function get_client()
+    {
+        return $this->client;
+    }
+
 
     public function run()
     {
-        if ($this->noToken()){ return; }
+        if ($this->noToken()){ return false; }
         $this->set_client();
-        if ($this->noClient()){ return; }
+        if ($this->noClient()){ return false; }
         $this->do_requests();
+        if (empty($this->results)){ return false; }
+        
+        return true;
     }
 
 
@@ -89,6 +106,7 @@ class ex_google_my_business
     {
         if ($this->client == null)
         {
+            $this->error = 'A google client cannot be created from class oauth_google_client.';
             return true;
         }
         return false;
@@ -96,9 +114,11 @@ class ex_google_my_business
     
     private function noToken()
     {
-        if (get_transient('GMB_OAUTH_REFRESH_TOKEN') == false)
-        {
-            return true;
+        $transient = get_transient('GMB_OAUTH_REFRESH_TOKEN');
+
+        if ($transient == false) { 
+            $this->error = 'GMB_OAUTH_REFRESH_TOKEN Transient not set.';
+            return true; 
         }
         return false;
     }
