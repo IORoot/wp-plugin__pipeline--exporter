@@ -48,7 +48,7 @@ class exCreatorStudioTest extends WP_UnitTestCase
     /**
      * Mock options.
      * 
-     * Note that the NOOP param is set to NOT publish at the
+     * Note that the NOOP param is set to NOT publish
      *
      * @return array
      */
@@ -69,9 +69,9 @@ class exCreatorStudioTest extends WP_UnitTestCase
                         'schedule'            => '+3 hours +30 minutes',
                         'specific'            => null,
                         'crosspost'           => true,
-                        'noop'                => false,
+                        'noop'                => true,
                         'screenshots'         => true,
-                        'clear_cookies'       => false,
+                        'clear_cookies'       => true,
                         'cookie_filename'     => "cookies.json",
                         'video_filename'      => "output.mp4",
                         'image_filename'      => "image.jpg",
@@ -163,13 +163,17 @@ class exCreatorStudioTest extends WP_UnitTestCase
     }
 
 
+
+
+
+
     /**
      * @test
      *
-     * @testdox Testing the run() method
+     * @testdox Testing the run() method with cleared cookies, screenshot on, NOOP true.
      *
      */
-    public function no_test_run()
+    public function test_run()
     {
 
         /**
@@ -204,6 +208,7 @@ class exCreatorStudioTest extends WP_UnitTestCase
 
         $asserted = $this->assertEquals($expected, $received);
     }
+
 
     
 }

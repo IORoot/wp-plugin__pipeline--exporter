@@ -5,7 +5,6 @@ namespace ex\exporter\creator_studio\requests;
 trait get_clear_screenshots 
 {
 
-
     
     private function get_clear_screenshots()
     {
@@ -17,7 +16,7 @@ trait get_clear_screenshots
 
             $response = $this->client->request( $method, $uri );
 
-            $this->results['status'] = (string) $response->getBody();
+            $this->results['screenshots'] = (string) $response->getBody();
 
         } catch (\Exception $e) {
             $this->debug('export', print_r($e->getMessage(), true));

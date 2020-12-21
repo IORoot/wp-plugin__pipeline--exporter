@@ -7,7 +7,7 @@ class ex_creator_studio
     use \ex\utils;
 
     use \ex\exporter\creator_studio\requests\get_clear_log;
-    
+
     use \ex\exporter\creator_studio\requests\get_clear_screenshots;
     
     use \ex\exporter\creator_studio\requests\get_debug_log;
@@ -143,6 +143,9 @@ class ex_creator_studio
 
         // Clear the log
         $this->get_clearlog();
+
+        // Clear screenshots
+        $this->get_clear_screenshots();
 
         foreach ($this->options["post_types_creator_studio"] as $this->post) {
 
