@@ -1,13 +1,14 @@
 <?php
 
 
-class ex_creator_studio 
+class ex_creator_studio
 {
-
     use \ex\debug;
     use \ex\utils;
 
     use \ex\exporter\creator_studio\requests\get_clear_log;
+    
+    use \ex\exporter\creator_studio\requests\get_clear_screenshots;
     
     use \ex\exporter\creator_studio\requests\get_debug_log;
 
@@ -78,9 +79,8 @@ class ex_creator_studio
 
     private function set_auth()
     {
-        foreach ($this->options['auth'] as $auth)
-        {
-            if ($auth['acf_fc_layout'] != 'igs'){
+        foreach ($this->options['auth'] as $auth) {
+            if ($auth['acf_fc_layout'] != 'igs') {
                 continue;
             }
 
@@ -108,10 +108,11 @@ class ex_creator_studio
 
     private function set_guzzle_client()
     {
-        if ($this->url == ''){  return; }
+        if ($this->url == '') {
+            return;
+        }
 
         $this->client = new \GuzzleHttp\Client(['base_uri' => $this->url]);
-
     }
 
 
@@ -128,16 +129,11 @@ class ex_creator_studio
      */
     private function iterate_data()
     {
-
-        foreach ($this->data as $this->current_key => $this->current_post)
-        {
-
+        foreach ($this->data as $this->current_key => $this->current_post) {
             $this->parse_moustaches();
 
             $this->iterate_targets();
-
         }
-
     }
 
 
@@ -148,20 +144,24 @@ class ex_creator_studio
         // Clear the log
         $this->get_clearlog();
 
-        foreach ($this->options["post_types_creator_studio"] as $this->post)
-        {
+        foreach ($this->options["post_types_creator_studio"] as $this->post) {
 
             // check enabled
-            if ($this->post['enabled'] == false){ continue; }
+            if ($this->post['enabled'] == false) {
+                continue;
+            }
+
+            // remove the cookie file & re-login.
+            $this->post_clear_cookies();
 
             // Video Download
-            $this->post_download($this->post['content_url'], './videos/' . $this->options["auth"]["video_file"]);
+            $this->post_download($this->post['content_url'], './videos/' . $this->post["video_filename"]);
 
             // wait until finished.
             $this->wait_for_complete();
 
             // Image Download
-            $this->post_download($this->post['cover_image_url'], './images/' . $this->options["auth"]["image_file"]);
+            $this->post_download($this->post['cover_image_url'], './images/' . $this->post["image_filename"]);
 
             // wait until finished.
             $this->wait_for_complete();
@@ -172,15 +172,16 @@ class ex_creator_studio
             // wait until finished.
             $this->wait_for_complete();
 
+            // Get debug log
+            $this->get_debug_log();
         }
-
     }
 
 
 
     /**
      * parse_moustaches
-     * 
+     *
      * Substitute any moustaches for real values.
      * Split into two parts {{post_type:field}}
      * Post_type = post, meta, image
@@ -201,21 +202,16 @@ class ex_creator_studio
 
     private function wait_for_complete()
     {
-        
         $this->get_status();
 
-        while ($this->results['status'] == 'running'){
+        while ($this->results['status'] == 'running') {
             sleep(5);
             $this->get_status();
         }
 
-        if ($this->results['status'] == 'error'){
+        if ($this->results['status'] == 'error') {
             $this->debug('export', print_r('Error on get_status', true));
             return;
         }
-
-
     }
-
-
 }

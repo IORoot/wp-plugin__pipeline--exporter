@@ -8,12 +8,14 @@ trait post_clear_cookies
     private function post_clear_cookies()
     {
 
+        if ($this->post['clear_cookies'] == false){ return; }   
+
         try {
 
             $method = 'POST';
             $uri = '/clearcookies?' . http_build_query($this->query);
             
-            $json = [ "cookies" => $this->options["auth"]["igs_api_key"] ];
+            $json = [ "cookies" => $this->post['cookie_filename'] ];
 
             $response = $this->client->request( $method, $uri, [ 'json' => $json ] );
 

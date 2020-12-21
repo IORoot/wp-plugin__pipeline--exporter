@@ -47,6 +47,8 @@ class exCreatorStudioTest extends WP_UnitTestCase
 
     /**
      * Mock options.
+     * 
+     * Note that the NOOP param is set to NOT publish at the
      *
      * @return array
      */
@@ -67,6 +69,12 @@ class exCreatorStudioTest extends WP_UnitTestCase
                         'schedule'            => '+3 hours +30 minutes',
                         'specific'            => null,
                         'crosspost'           => true,
+                        'noop'                => false,
+                        'screenshots'         => true,
+                        'clear_cookies'       => false,
+                        'cookie_filename'     => "cookies.json",
+                        'video_filename'      => "output.mp4",
+                        'image_filename'      => "image.jpg",
                     ],
                 ],
             'auth' =>
@@ -77,10 +85,6 @@ class exCreatorStudioTest extends WP_UnitTestCase
                         'password'            => CREATOR_STUDIO_PASSWORD,
                         'igs_api_key'         => CREATOR_STUDIO_IGS_API_KEY,
                         'ip_address'          => CREATOR_STUDIO_IGS_IP,
-                        'cookie_filename'     => "cookies.json",
-                        'screenshots'         => false,
-                        'video_file'          => "output.mp4",
-                        'image_file'          => "cover.jpg",
                     ]
                 ]
         ];
@@ -165,7 +169,7 @@ class exCreatorStudioTest extends WP_UnitTestCase
      * @testdox Testing the run() method
      *
      */
-    public function test_run()
+    public function no_test_run()
     {
 
         /**

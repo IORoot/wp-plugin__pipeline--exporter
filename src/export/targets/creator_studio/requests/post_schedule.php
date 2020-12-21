@@ -27,6 +27,7 @@ trait post_schedule
             $this->param_location();
             $this->param_caption();
             $this->param_crosspost();
+            $this->param_noop();
 
             $response = $this->client->request( $method, $uri, [ 'json' => $this->json ] );
 
@@ -57,30 +58,31 @@ trait post_schedule
 
     private function param_cookies()
     {
-        $this->json['cookies'] = $this->options["auth"]["cookie_filename"];
+        if (empty($this->post["cookie_filename"])){ $this->post["cookie_filename"] = 'cookies.json'; }
+        $this->json['cookies'] = $this->post["cookie_filename"];
     }
 
 
 
     private function param_screenshots()
     {
-        $this->json['screenshots'] = $this->options["auth"]["screenshots"];
+        $this->json['screenshots'] = $this->post["screenshots"];
     }
 
 
 
     private function param_video()
     {
-        if (empty($this->options["auth"]["video_file"])){ return; }
-        $this->json['video'] = $this->options["auth"]["video_file"];
+        if (empty($this->post["video_filename"])){ $this->post["video_filename"] = 'output.mp4'; }
+        $this->json['video'] = $this->post["video_filename"];
     }
 
 
 
     private function param_cover()
     {
-        if (empty($this->options["auth"]["image_file"])){ return; }
-        $this->json['cover'] = $this->options["auth"]["image_file"];
+        if (empty($this->post["image_filename"])){ $this->post["image_filename"] = 'image.jpg'; }
+        $this->json['cover'] = $this->post["image_filename"];
     }
 
 
@@ -137,7 +139,16 @@ trait post_schedule
 
     private function param_crosspost()
     {
+        if (empty($this->post['crosspost'])){ return; }
         $this->json['crosspost'] = $this->post['crosspost'];
+    }
+
+
+
+    private function param_noop()
+    {
+        if (empty($this->post['noop'])){ return; }
+        $this->json['noop'] = $this->post['noop'];
     }
 
 

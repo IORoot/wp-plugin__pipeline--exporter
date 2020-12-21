@@ -102,3 +102,38 @@
     border-radius: 20px;
     font-size: 10px;
 }
+
+
+/*  ┌─────────────────────────────────────────────────────────────────────────┐
+    │                                                                         │░
+    │                                                                         │░
+    │                                 Export                                  │░
+    │                                                                         │░
+    │                                                                         │░
+    └─────────────────────────────────────────────────────────────────────────┘░
+     ░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░ */
+
+.ue__creator-studio {
+    background: repeating-linear-gradient(-112deg,#5c0abf 0,#B0377B 100%);
+}
+.ue__creator-studio > .acf-label { color: #fff; }
+
+.ue__youtube {
+    background-color: #c4302b;
+}
+.ue__youtube > .acf-label { color: #fff; }
+
+.ue__trello {
+    background-color: #0079bf;
+}
+.ue__trello > .acf-label { color: #fff; }
+
+.ue__rest {
+    background-color: #11998E;
+}
+.ue__rest > .acf-label { color: #fff; }
+
+.ue__gmb {
+    background-color: #4785ED;
+}
+.ue__gmb > .acf-label { color: #fff; }
