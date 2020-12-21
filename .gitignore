@@ -3,6 +3,7 @@ service_account.json
 test_refresh_token*.*
 package-lock.json
 node_modules
+tests/test_secrets.php
 tests/report
 vendor
 .DS_Store

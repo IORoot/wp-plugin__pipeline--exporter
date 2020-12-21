@@ -99,8 +99,10 @@ class exGMBTest extends WP_UnitTestCase
      */
     private function cleanup()
     {
-        $this->remove_gmb_last_media();
-        $this->remove_gmb_last_post();
+        $this->remove_gmb_last_media($this::mock_gmb_CTA());
+        $this->remove_gmb_last_post($this::mock_gmb_CTA());
+        $this->remove_gmb_last_media($this::mock_gmb_event());
+        $this->remove_gmb_last_post($this::mock_gmb_event());
     }
 
 
@@ -111,9 +113,9 @@ class exGMBTest extends WP_UnitTestCase
      *
      * @return void
      */
-    private function remove_gmb_last_media()
+    private function remove_gmb_last_media($post_options)
     {
-        $options = $this::mock_gmb_CTA();
+        $options = $post_options;
 
         $gmb = new \ex\exporter\gmb\delete_media;
         $gmb->set_client($this->class_instance->get_client());
@@ -130,9 +132,9 @@ class exGMBTest extends WP_UnitTestCase
      *
      * @return void
      */
-    private function remove_gmb_last_post()
+    private function remove_gmb_last_post($post_options)
     {
-        $options = $this::mock_gmb_CTA();
+        $options = $post_options;
 
         $gmb = new \ex\exporter\gmb\delete_post;
         $gmb->set_client($this->class_instance->get_client());
