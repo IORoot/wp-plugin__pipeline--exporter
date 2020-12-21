@@ -3,8 +3,9 @@
 
 /**
  * Does nothing. The REST outputs are 'always on' which means
- * they are declared in the root exporter.php file with an
- * add_action().
+ * they are declared using composer and a __construct method.
+ * 
+ * See src/REST/rest.php
  */
 class ex_rest
 {

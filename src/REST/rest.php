@@ -1,9 +1,19 @@
 <?php
 
+/**
+ * Composer will create this through the __construct method.
+ */
+
 class new_rest_endpoint
 {
 
     public $options;
+
+    public $request;
+
+    private $route_queries;
+
+    private $posts;
 
 
     public function __construct()
@@ -75,19 +85,18 @@ class new_rest_endpoint
      */
     public function get_latest_exporter_post( WP_REST_Request $request )
     {
+        $this->request = $request;
 
         $this->get_options();
 
-        $slug = $request->get_param('slug');
+        $this->loop_export_groups();
 
-        $route = $this->routes[$slug];
+        if (!$this->is_requested_route_defined()){ return 'No such REST endpoint defined. Is it enabled?'; }
 
-        if (empty($route)){ return 'No such REST endpoint defined.'; }
-
-        $posts = get_posts( $route );
+        $this->get_routes_posts();
 
 
-        foreach($posts as $key => $post)
+        foreach($this->posts as $key => $post)
         {
             // Post from stdClass to Array
             $result = (array) $post;
@@ -118,31 +127,94 @@ class new_rest_endpoint
 
 
 
-    public function get_options()
+
+
+    /**
+     * This will get all the options for all exports and filter for the REST ones.
+     * Each REST export will then run the set_routes() method.
+     */
+    private function get_options()
     {
         $this->options = (new \ex\option)->get_all('ex_export_instance');
+    }
 
-        foreach($this->options[0]['ex_export_target_mapping'] as $this->export_method)
+
+
+    private function loop_export_groups()
+    {
+        foreach($this->options as $this->export_group)
+        {
+            $this->loop_export_methods();
+        }
+    }
+
+
+
+
+    private function loop_export_methods()
+    {
+
+        if ($this->export_group['ex_export_group']['ex_export_enabled'] == false){ return; }
+
+        foreach($this->export_group['ex_export_target_mapping'] as $this->export_method)
         {
             if ($this->export_method['acf_fc_layout'] != "rest"){ continue; }
-            
-            $this->set_routes();
+        
+            $this->loop_routes();
         }
     }
 
 
-    public function set_routes()
+
+    private function loop_routes()
     {
-        foreach ($this->export_method['post_types_rest'] as $routes)
+        foreach ($this->export_method['post_types_rest'] as $this->routes)
         {
-            // convert string to array
-            $wp_query = preg_replace("/\r|\n/", "", $routes['post_arguments']);
-            $this->routes[$routes['endpoint_route']] = eval("return " . $wp_query . ";");
+            $this->set_route();
         }
     }
 
 
-    public static function array_flat($array, $prefix = '', $separator = '_')
+
+    private function set_route()
+    {
+        $wp_query = preg_replace("/\r|\n/", "", $this->routes['post_arguments']);
+
+        $query = eval("return " . $wp_query . ";");
+
+        $slug = $this->routes['endpoint_route'];
+
+        $this->route_queries[$slug] = $query;
+        
+    }
+
+
+    private function is_requested_route_defined()
+    {
+        $requested_slug = $this->request->get_param('slug');
+
+        if (!isset($this->route_queries[$requested_slug])){ return false; }
+
+        $this->current_route_query = $this->route_queries[$requested_slug];
+
+        if (empty($this->current_route_query)){ return false; }
+
+        return true;
+    }
+
+
+
+    private function get_routes_posts()
+    {
+        $this->posts = get_posts( $this->current_route_query );
+    }
+
+
+
+    /**
+     * This flattens a multi-level array into a single-level array.
+     */
+    private static function array_flat($array, $prefix = '', $separator = '_')
     {
         $result = array();
 
