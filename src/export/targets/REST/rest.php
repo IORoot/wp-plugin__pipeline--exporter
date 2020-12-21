@@ -28,7 +28,7 @@ class ex_rest
 
     public function run()
     {
-        return $results;
+        return $this->results;
     }
 
 }
