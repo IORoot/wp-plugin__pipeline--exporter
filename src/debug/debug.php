@@ -29,18 +29,10 @@ trait debug
         return update_field( $this->debug['acf_textarea'] . '_window', '', 'option');
     }
 
-
-
-
-
     private function set_acf_textarea($section)
     {
-
         $this->debug['acf_textarea'] = $this->debug['namespace'] . '_' . $section . '_debug';
-        
     }
-
-
 
     private function add_title($section)
     {
@@ -57,6 +49,8 @@ trait debug
     {
 
         $field = $this->debug['acf_textarea'] . '_window';
+
+        $this->convert_objects_to_array();
 
         $this->get_character_limit();
 
@@ -83,20 +77,27 @@ trait debug
     }
 
 
+    private function convert_objects_to_array()
+    {
+        if (!is_object($this->results)){ return; }
+        $this->debug_results = (array) $this->results;
+    }
+
 
     private function get_character_limit()
     {
         $field = $this->debug['acf_textarea'] . '_limit';
-        $this->debug['char_limit'] = intval(get_field($field, 'options'));
+        $value = get_field($field, 'options');
+        $this->debug['char_limit'] = intval($value);
     }
     
     private function set_record_count()
     {
         $field = $this->debug['acf_textarea'] . '_records';
 
-        if (!isset($this->results)){ return; }
+        if (!isset($this->debug_results)){ return; }
 
-        $count = count($this->results);
+        $count = count($this->debug_results);
 
         return update_field( $field, $count, 'option');
     }
