@@ -2,12 +2,12 @@
 
 namespace ex\action;
 
-class universal_exporter {
+class pipeline_exporter {
 
 
     public function __construct()
     {
-        add_action( 'universal_exporter', array($this,'run_exporter'), 10, 2);
+        add_action( 'pipeline_exporter', array($this,'run_exporter'), 10, 2);
     }
 
     

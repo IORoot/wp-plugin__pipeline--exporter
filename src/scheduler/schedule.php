@@ -50,7 +50,7 @@ class schedule
         {
             $this->event = [
                 'enabled' => $enabled,
-                'hook'    => 'pipeline_processor',
+                'hook'    => 'pipeline_exporter',
                 'params'  => [ 
                     'job_id'      => $job_id,
                     'label'       => $event['schedule']['schedule_label'] 
@@ -111,10 +111,10 @@ class schedule
         {
 
             // IF not a pipeline_proceessor cron entry.
-            if (!array_key_exists('pipeline_processor', $timestamp)){ continue; }
+            if (!array_key_exists('pipeline_exporter', $timestamp)){ continue; }
 
             // get first key (its a unique MD5 hash)
-            $event = reset($timestamp['pipeline_processor']);
+            $event = reset($timestamp['pipeline_exporter']);
 
             // IF job_id doesn't match skip.
             if ($event['args']['job_id'] != $this->options['ex_job_group']['ex_job_id']){ continue; }
@@ -123,7 +123,7 @@ class schedule
             if (in_array($event['args']['label'], $labels)){ continue; }
 
             // Label NOT in list, so delete it.
-            wp_clear_scheduled_hook( 'pipeline_processor', $event['args'] );
+            wp_clear_scheduled_hook( 'pipeline_exporter', $event['args'] );
         }
 
     }

@@ -178,7 +178,7 @@ class schedule
      */
     private function check_for_existing_event()
     {
-        $timestamp = wp_next_scheduled($this->options['hook'], $this->options['params']);
+        $timestamp = \wp_next_scheduled($this->options['hook'], $this->options['params']);
         if ($timestamp){
             $this->existing_event['next_scheduled'] = $timestamp;
         }
@@ -269,7 +269,7 @@ class schedule
     {
         if (!empty($this->existing_event['next_scheduled'])){ return; }
 
-        wp_schedule_event(
+        \wp_schedule_event(
             $this->options['starts'], 
             $this->options['repeats'],
             $this->options['hook'], 

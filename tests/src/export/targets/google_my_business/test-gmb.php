@@ -38,13 +38,11 @@ class exGMBTest extends WP_UnitTestCase
                         'enabled' => '1',
                         'locationid' => 'accounts/106324301700393434193/locations/13389130540797665003',
                         'summary' => 'GMB Test CTA Export',
-                        'settings' => [
-                                'action_type' => 'LEARN_MORE',
-                                'url' => 'https://londonparkour.com/',
-                                'media_type' => 'PHOTO',
-                                'media_source_url' => 'https://londonparkour.com/wp-content/uploads/2020/06/Outdoors-1.jpg',
-                                'media_category' => 'ADDITIONAL',
-                            ]
+                        'action_type' => 'LEARN_MORE',
+                        'url' => 'https://londonparkour.com/',
+                        'media_type' => 'PHOTO',
+                        'media_source_url' => 'https://londonparkour.com/wp-content/uploads/2020/06/Outdoors-1.jpg',
+                        'media_category' => 'ADDITIONAL',
                     ]
                 ]
         ];
@@ -61,16 +59,14 @@ class exGMBTest extends WP_UnitTestCase
                         'enabled' => '1',
                         'locationid' => 'accounts/106324301700393434193/locations/13389130540797665003',
                         'summary' => 'GMB Test Event Export',
-                        'settings' => [
-                                'title' => '{{0_post_title}}',
-                                'start_datetime' => '2020, 12, 30, 7, 24, 00',
-                                'end_datetime' => '2020, 12, 31, 7, 24, 00',
-                                'media_type' => 'PHOTO',
-                                'media_source_url' => 'https://londonparkour.com/wp-content/uploads/2020/06/Outdoors-1.jpg',
-                                'media_category' => 'ADDITIONAL',
-                                'button_action_type' => 'LEARN_MORE',
-                                'button_url' => 'https://londonparkour.com',
-                            ]
+                        'title' => '{{0_post_title}}',
+                        'start_datetime' => '2020, 12, 30, 7, 24, 00',
+                        'end_datetime' => '2020, 12, 31, 7, 24, 00',
+                        'media_type' => 'PHOTO',
+                        'media_source_url' => 'https://londonparkour.com/wp-content/uploads/2020/06/Outdoors-1.jpg',
+                        'media_category' => 'ADDITIONAL',
+                        'button_action_type' => 'LEARN_MORE',
+                        'button_url' => 'https://londonparkour.com',
                     ]
                 ]
         ];
@@ -117,7 +113,7 @@ class exGMBTest extends WP_UnitTestCase
     {
         $gmb = new \ex\exporter\gmb\delete_media;
         $gmb->set_client($this->class_instance->get_client());
-        $gmb->set_sourceURL($options['post_types_google_my_business'][0]['settings']['media_source_url']);
+        $gmb->set_sourceURL($options['post_types_google_my_business'][0]['media_source_url']);
         $gmb->run(); 
         $result = $gmb->get_results();
     }

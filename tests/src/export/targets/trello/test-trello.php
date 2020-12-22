@@ -42,19 +42,15 @@ class exTrelloTest extends WP_UnitTestCase
                 [
                     [
                         'acf_fc_layout'       => 'add_card',
-                        'location'            => [
-                            'enabled' => true,
-                            'board' => "5a8d3c2a5b7deee57e2efe2b",
-                            'list' => "5c95efda4da9724812f428a7",
-                        ],
-                        'details' => [
-                            'name' => 'PHPUNIT Trello Test',
-                            'description' => 'PHPUNIT Trello Description',
-                            'due_date' => "2020-11-26 00:00:00",
-                            'labels' => [ "5a8d3c2b5b7deee57e2efe64" ],
-                            'source_url' => "https://londonparkour.com/wp-content/uploads/2020/06/Youth-2.jpg",
-                            'custom_fields' => false,
-                        ]
+                        'enabled' => true,
+                        'trello_board' => "5a8d3c2a5b7deee57e2efe2b",
+                        'trello_list' => "5c95efda4da9724812f428a7",
+                        'name' => 'PHPUNIT Trello Test',
+                        'description' => 'PHPUNIT Trello Description',
+                        'due_date' => "2020-11-26 00:00:00",
+                        'labels' => [ "5a8d3c2b5b7deee57e2efe64" ],
+                        'source_url' => "https://londonparkour.com/wp-content/uploads/2020/06/Youth-2.jpg",
+                        'custom_fields' => false,
                     ],
                 ],
             'auth' =>

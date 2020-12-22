@@ -95,7 +95,9 @@ class exporter
 
         $this->run_class('ex\housekeep');
 
-        // $this->run_class('ex\schedule');
+        if ($this->running_from_action){ return; }
+
+        $this->run_class('ex\schedule');
     }
 
 
