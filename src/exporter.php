@@ -4,10 +4,13 @@ namespace ex;
 
 use \ex\options;
 use \ex\content;
+use \ex\debug;
 
 class exporter
 {
     
+    use debug;
+
     public $options;
 
     public $results;
@@ -40,6 +43,8 @@ class exporter
 
         if ($this->is_save_only()){ return; }
 
+        $this->clearlogs();
+
         // loop over each export instance.
         foreach ($this->options as $this->_export_key => $current_export) {
 
@@ -64,6 +69,8 @@ class exporter
     public function run_single_job()
     {
         if (empty($this->job_id)){ return; }
+
+        $this->clearlogs();
         
         $this->running_from_action = true;
 
@@ -110,5 +117,14 @@ class exporter
     {
         return $this->options['saveonly'];
     }
+
+
+
+    private function clearlogs()
+    {
+        $this->debug_clear('content');
+        $this->debug_clear('export');
+    }
+
 
 }

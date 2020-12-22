@@ -2,7 +2,7 @@
 
 
 /**
- * Add Javascript
+ * Add Javascript for dynamically changing the select boxes
  */
 function enqueue_trello_board_js()
 {
@@ -10,6 +10,9 @@ function enqueue_trello_board_js()
     wp_enqueue_script('trello_boards_js', $src, array('acf-input'));
 }
 add_action('acf/input/admin_enqueue_scripts', 'enqueue_trello_board_js');
+
+
+
 
 
 function acf_populate_ex_trello_location_board_choices( $field ) {
@@ -76,4 +79,4 @@ function acf_populate_ex_trello_location_board_choices( $field ) {
 
 }
 
-add_filter('acf/load_field/key=field_5f845ee95ad4c', 'acf_populate_ex_trello_location_board_choices');
+add_filter('acf/load_field/key=trello_board', 'acf_populate_ex_trello_location_board_choices');

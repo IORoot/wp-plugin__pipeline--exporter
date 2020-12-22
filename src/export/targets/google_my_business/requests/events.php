@@ -62,8 +62,6 @@ class events
         $this->build_localPost();
 
         $this->create_localPost();
-
-        $this->debug('export', $this->results);
     }
     
 
@@ -104,8 +102,8 @@ class events
 
     private function parse_datetimes()
     {
-        $this->start_datetime = explode(',', $this->options['settings']['start_datetime']);
-        $this->end_datetime = explode(',', $this->options['settings']['end_datetime']);
+        $this->start_datetime = explode(',', $this->options['start_datetime']);
+        $this->end_datetime = explode(',', $this->options['end_datetime']);
     }
 
     /**
@@ -118,7 +116,7 @@ class events
     private function build_event()
     {
         $this->event = new \Google_Service_MyBusiness_LocalPostEvent();
-        $this->event->setTitle($this->options['settings']['title']);
+        $this->event->setTitle($this->options['title']);
         $this->event->setSchedule($this->schedule);
     }
 
@@ -175,8 +173,8 @@ class events
     private function build_CTA()
     {
         $this->CTA = new \Google_Service_MyBusiness_CallToAction();
-        $this->CTA->setActionType($this->options['settings']['button_action_type']);
-        $this->CTA->setUrl($this->options['settings']['button_url']);
+        $this->CTA->setActionType($this->options['button_action_type']);
+        $this->CTA->setUrl($this->options['button_url']);
     }
 
     /**
@@ -227,15 +225,23 @@ class events
                 $this->options['locationid'],
                 $this->localPost
             );
+
+            $this->debug('export', $this->results);
         } 
         catch (\Google_Service_Exception $e) {
-            $this->results = 'Caught \Google_Service_Exception: ' .  print_r($e->getMessage(), true) . "\n";
+            $message = 'Caught \Google_Service_Exception: ' .  print_r($e->getMessage(), true) . "\n";
+            $this->debug('export', $message);
+            $this->results = false;
         }
         catch (\Google_Exception $e) {
-            $this->results = 'Caught \Google_Exception: ' .  print_r($e->getMessage(), true) . "\n";
+            $message = 'Caught \Google_Exception: ' .  print_r($e->getMessage(), true) . "\n";
+            $this->debug('export', $message);
+            $this->results = false;
         }
         catch (\Exception $e) {
-            $this->results = 'Caught \Exception: ' .  print_r($e->getMessage(), true) . "\n";
+            $message = 'Caught \Exception: ' .  print_r($e->getMessage(), true) . "\n";
+            $this->debug('export', $message);
+            $this->results = false;
         }
 
     }

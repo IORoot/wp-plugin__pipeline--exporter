@@ -53,11 +53,11 @@ class housekeep
 
     private function conform_options()
     {
-        if ($this->options['ue_job_housekeep_id'] == 'none'){ return; }
+        if ($this->options['ex_job_housekeep_id'] == 'none'){ return; }
 
-        $this->housekeep_options['enabled'] = $this->options['ue_job_housekeep_id']['ue_housekeep_group']['ue_housekeep_enabled'];
-        $this->housekeep_options['action']  = $this->options['ue_job_housekeep_id']['ue_housekeep_action'];
-        $this->housekeep_options['query']   = $this->options['ue_job_housekeep_id']['ue_housekeep_query'];
+        $this->housekeep_options['enabled'] = $this->options['ex_job_housekeep_id']['ex_housekeep_group']['ex_housekeep_enabled'];
+        $this->housekeep_options['action']  = $this->options['ex_job_housekeep_id']['ex_housekeep_action'];
+        $this->housekeep_options['query']   = $this->options['ex_job_housekeep_id']['ex_housekeep_query'];
     }
 
 

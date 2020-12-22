@@ -107,16 +107,14 @@ class exGMBTest extends WP_UnitTestCase
 
 
     /**
-     * remove_gmb_item function
+     * remove media function
      * 
      * Cleanup any uploaded image.
      *
      * @return void
      */
-    private function remove_gmb_last_media($post_options)
+    private function remove_gmb_last_media($options)
     {
-        $options = $post_options;
-
         $gmb = new \ex\exporter\gmb\delete_media;
         $gmb->set_client($this->class_instance->get_client());
         $gmb->set_sourceURL($options['post_types_google_my_business'][0]['settings']['media_source_url']);
@@ -126,16 +124,14 @@ class exGMBTest extends WP_UnitTestCase
 
 
     /**
-     * remove_gmb_post function
+     * remove post function
      * 
      * Cleanup any uploaded post.
      *
      * @return void
      */
-    private function remove_gmb_last_post($post_options)
+    private function remove_gmb_last_post($options)
     {
-        $options = $post_options;
-
         $gmb = new \ex\exporter\gmb\delete_post;
         $gmb->set_client($this->class_instance->get_client());
         $gmb->set_summary($options['post_types_google_my_business'][0]['summary']);

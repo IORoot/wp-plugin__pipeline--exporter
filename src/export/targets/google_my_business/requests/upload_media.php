@@ -38,7 +38,7 @@ class upload_media
     private function are_options_valid()
     {
         // no value.
-        if (empty($this->options["settings"]["media_source_url"])){ return false;}
+        if (empty($this->options["media_source_url"])){ return false;}
 
         return true;
     }
@@ -61,11 +61,11 @@ class upload_media
             $token = $this->client->getAccessToken();
             
             $data = array(
-                'mediaFormat' => $this->options["settings"]["media_type"],
+                'mediaFormat' => $this->options["media_type"],
                 'locationAssociation' => array(
-                    "category" => $this->options["settings"]["media_category"]
+                    "category" => $this->options["media_category"]
                 ),
-                'sourceUrl' => $this->options["settings"]["media_source_url"]
+                'sourceUrl' => $this->options["media_source_url"]
             );
             $json = json_encode($data);
             $url = 'https://mybusiness.googleapis.com/v4/'.$this->options["locationid"].'/media';
@@ -87,10 +87,19 @@ class upload_media
 
         } 
         catch (\Google_Service_Exception $e) {
-            $this->results = 'Caught \Google_Service_Exception: ' .  print_r($e->getMessage(), true);
+            $message = 'Caught \Google_Service_Exception: ' .  print_r($e->getMessage(), true) . "\n";
+            $this->debug('export', $message);
+            $this->results = false;
+        }
+        catch (\Google_Exception $e) {
+            $message = 'Caught \Google_Exception: ' .  print_r($e->getMessage(), true) . "\n";
+            $this->debug('export', $message);
+            $this->results = false;
         }
         catch (\Exception $e) {
-            $this->results = 'Caught \exception: ' .  print_r($e->getMessage(),true);
+            $message = 'Caught \Exception: ' .  print_r($e->getMessage(), true) . "\n";
+            $this->debug('export', $message);
+            $this->results = false;
         }
 
     }

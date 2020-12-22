@@ -87,7 +87,7 @@ class upload_video
 
     private function build_video_path()
     {
-        $videoPath = trim($this->options['details']['video_path']);
+        $videoPath = trim($this->options['video_path']);
         $this->videoPath = $videoPath;
     }
 
@@ -96,13 +96,13 @@ class upload_video
     {
         $this->snippet = new \Google_Service_YouTube_VideoSnippet();
         $this->snippet->setTitle(substr($this->options['title'],0,70));
-        $this->snippet->setDescription(substr($this->options['snippet']['description'],0,5000));
-        $this->snippet->setCategoryId($this->options['details']['category']);
+        $this->snippet->setDescription(substr($this->options['description'],0,5000));
+        $this->snippet->setCategoryId($this->options['category']);
     }
 
     private function build_video_tags()
     {
-        $tags = explode(',', trim($this->options['details']['tags']));
+        $tags = explode(',', trim($this->options['tags']));
         $this->snippet->setTags($tags);
     }
 
@@ -112,21 +112,21 @@ class upload_video
     {
         $this->status = new \Google_Service_YouTube_VideoStatus();
         $this->status->privacyStatus = "public";
-        $this->status->setEmbeddable($this->options['details']['embeddable']) ;
+        $this->status->setEmbeddable($this->options['embeddable']) ;
 
-        if ($this->options['details']['privacy_status'] != "")
+        if ($this->options['privacy_status'] != "")
         {
-            $this->status->setPrivacyStatus($this->options['details']['privacy_status']);
+            $this->status->setPrivacyStatus($this->options['privacy_status']);
         }
 
-        if ($this->options['details']['licence'] != "")
+        if ($this->options['licence'] != "")
         {
-            $this->status->setLicense($this->options['details']['licence']) ;
+            $this->status->setLicense($this->options['licence']) ;
         }
 
-        if ($this->options['details']['publishat'] != "")
+        if ($this->options['publishat'] != "")
         {
-            $this->status->setPublishAt($this->options['details']['publishat']);
+            $this->status->setPublishAt($this->options['publishat']);
         }
     }
 
@@ -225,7 +225,7 @@ class upload_video
         if ($this->is_thumbnail_valid() === false){ return; }
 
         $this->thumbnail = new upload_thumbnail();
-        $this->thumbnail->set_imageURL(trim($this->options['details']['thumbnail_path']));
+        $this->thumbnail->set_imageURL(trim($this->options['thumbnail_path']));
         $this->thumbnail->set_videoId($this->returned['id']);
         $this->thumbnail->set_client($this->client);
 
@@ -246,16 +246,16 @@ class upload_video
 
     private function is_thumbnail_valid()
     {
-        if (empty($this->options['details']['thumbnail_path'])){ return false; }
+        if (empty($this->options['thumbnail_path'])){ return false; }
 
         // are there moustaches?
-        if (strpos($this->options['details']['thumbnail_path'], '{{') !== false){ return false; }
+        if (strpos($this->options['thumbnail_path'], '{{') !== false){ return false; }
 
         // are there arrows?
-        if (strpos($this->options['details']['thumbnail_path'], '->') !== false){ return false; }
+        if (strpos($this->options['thumbnail_path'], '->') !== false){ return false; }
 
         // does file exist?
-        if (!file_exists( WP_CONTENT_DIR . '/uploads/' . $this->options['details']['thumbnail_path'])){ return false; }
+        if (!file_exists( WP_CONTENT_DIR . '/uploads/' . $this->options['thumbnail_path'])){ return false; }
 
         return true;
     }
@@ -273,13 +273,13 @@ class upload_video
 
     private function isBadVideo()
     {
-        if ($this->options['details']['video_path'] == "")
+        if ($this->options['video_path'] == "")
         {
             $this->debug('export', 'No Video File.');
             return true;
         }
 
-        $filesize = filesize(trim($this->options['details']['video_path']));
+        $filesize = filesize(trim($this->options['video_path']));
         if ($filesize < 100)
         {
             $this->debug('export', 'Bad Video File. < 100 bytes.');

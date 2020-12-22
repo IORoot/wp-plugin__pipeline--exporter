@@ -14,73 +14,77 @@ trait debug
         'namespace' => 'ex',
         'char_limit' => 10000,
         'trimmed_string' => '',
+        'section' => '',
+        'message' => '',
     ];
 
 
     public function debug($section, $message)
     {
-        $this->set_acf_textarea($section);
-        $this->debug_update($section, $message);
+        $this->debug['section'] = $section;
+        $this->debug['message'] = $message;
+        $this->set_acf_textarea();
+        $this->debug_update();
     }
 
     public function debug_clear($section)
     {
-        $this->set_acf_textarea($section);
-        return update_field( $this->debug['acf_textarea'] . '_window', '', 'option');
+        $this->debug['section'] = $section;
+        $this->set_acf_textarea();
+        update_field( $this->debug['acf_textarea'] . '_window', '', 'option');
     }
 
-    private function set_acf_textarea($section)
+
+
+
+    /**
+     * Private
+     */
+
+    private function set_acf_textarea()
     {
-        $this->debug['acf_textarea'] = $this->debug['namespace'] . '_' . $section . '_debug';
+        $this->debug['acf_textarea'] = $this->debug['namespace'] . '_' . $this->debug['section'] . '_debug';
     }
 
-    private function add_title($section)
+    
+    private function add_title()
     {
         $title =  PHP_EOL . '# ====================== # ';
-        $title .= $section . ' - ' . date('r');
+        $title .= $this->debug['section'] . ' - ' . date('r');
         $title .= ' # ====================== #'. PHP_EOL;
         
         return $title;
     }
 
 
-
-    private function debug_update($section, $message)
+    private function debug_update()
     {
 
         $field = $this->debug['acf_textarea'] . '_window';
 
-        $this->convert_objects_to_array();
+        $this->cast_objects_to_array();
 
         $this->get_character_limit();
 
         $this->set_record_count();
         
-        $title = $this->add_title($section);
-
-        $value = $this::to_pretty_JSON($message);
-        // $value = $this::to_print_r($message);
-
-        $current = get_field($this->debug['acf_textarea'], 'option');
-
-        $value = $title.$value.$current;
-
-        if ($this->debug['char_limit'] != 0){
-            $this->debug['trimmed_string'] = substr($value, 0, $this->debug['char_limit']);
-        }
+        $this->output_new_debug_message();
 
         $this->set_character_count();
+
         $this->set_line_count();
 
-        $result = update_field($field , $this->debug['trimmed_string'], 'option');
+        update_field($field , $this->debug['trimmed_string'], 'option');
 
     }
 
 
-    private function convert_objects_to_array()
+    private function cast_objects_to_array()
     {
-        if (!is_object($this->results)){ return; }
-        $this->debug_results = (array) $this->results;
+        $message = $this->debug['message'];
+        if (!isset($message)){ return; }
+        if (!is_object($message)){ return; }
+        $this->debug['message'] = (array) $message;
     }
 
 
@@ -95,9 +99,17 @@ trait debug
     {
         $field = $this->debug['acf_textarea'] . '_records';
 
-        if (!isset($this->debug_results)){ return; }
+        if (!isset($this->debug['message'])){ return; }
 
-        $count = count($this->debug_results);
+        $count = 0;
+
+        if (is_object($this->debug['message'])){
+            $count = count($this->debug['message']);
+        }
+        if (is_array($this->debug['message'])){
+            $count = count($this->debug['message']);
+        }
+
 
         return update_field( $field, $count, 'option');
     }
@@ -119,6 +131,35 @@ trait debug
         $count = substr_count( $this->debug['trimmed_string'], "\n" );
 
         return update_field( $field, $count, 'option');
+    }
+
+
+
+    private function output_new_debug_message()
+    {
+        
+        // add a title.
+        $value = $this->add_title();
+        $value .= PHP_EOL;
+
+        // convert to outputtable value.
+        $value .= $this::to_pretty_JSON($this->debug['message']);
+        $value .= PHP_EOL;
+
+
+        // get the last message.
+        $old_value = get_field($this->debug['acf_textarea'], 'option');
+        if (is_array($old_value)){
+            $value .= $old_value['window'];
+            $value .= PHP_EOL;
+        }
+
+
+        // update output
+        if ($this->debug['char_limit'] != 0){
+            $this->debug['trimmed_string'] = substr($value, 0, $this->debug['char_limit']);
+        }
+
     }
 
 }

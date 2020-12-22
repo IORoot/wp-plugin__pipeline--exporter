@@ -15,11 +15,6 @@ class ex_trello
 
     private $client;
 
-    private $board;
-
-    private $list;
-
-
     public function set_options($options)
     {
         $this->options = $options;

@@ -53,8 +53,6 @@ class call_to_action
         $this->build_CTA();
         $this->build_localPost();
         $this->create_localPost();
-
-        $this->debug('export', $this->results);
     }
     
 
@@ -121,8 +119,8 @@ class call_to_action
     private function build_CTA()
     {
         $this->CTA = new \Google_Service_MyBusiness_CallToAction();
-        $this->CTA->setActionType($this->options["settings"]["action_type"]);
-        $this->CTA->setUrl($this->options["settings"]["url"]);
+        $this->CTA->setActionType($this->options["action_type"]);
+        $this->CTA->setUrl($this->options["url"]);
     }
 
 
@@ -161,12 +159,23 @@ class call_to_action
                 $this->options["locationid"],
                 $this->localPost
             );
+
+            $this->debug('export', $this->results);
         } 
         catch (\Google_Service_Exception $e) {
-            $this->results = 'Caught \Google_Service_Exception: ' .  print_r($e->getMessage(), true) . "\n" . 'Request was: ' . print_r($this->localPost,true);
+            $message = 'Caught \Google_Service_Exception: ' .  print_r($e->getMessage(), true) . "\n";
+            $this->debug('export', $message);
+            $this->results = false;
+        }
+        catch (\Google_Exception $e) {
+            $message = 'Caught \Google_Exception: ' .  print_r($e->getMessage(), true) . "\n";
+            $this->debug('export', $message);
+            $this->results = false;
         }
         catch (\Exception $e) {
-            $this->results = 'Caught \exception: ' .  print_r($e->getMessage(),true) . "\n" . 'Request was: ' . print_r($this->localPost, true);
+            $message = 'Caught \Exception: ' .  print_r($e->getMessage(), true) . "\n";
+            $this->debug('export', $message);
+            $this->results = false;
         }
 
     }

@@ -34,7 +34,6 @@ class content
     public function run()
     {
         if ($this::is_disabled($this->options['ex_job_content_id'], 'content')){ return; }
-        $this->debug_clear('content');
         $this->instantiate_class();
         $this->set_args();
         $this->execute();

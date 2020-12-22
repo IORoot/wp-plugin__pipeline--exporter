@@ -57,7 +57,6 @@ class export
 
     public function run()
     {
-        $this->debug_clear('export');
         $this->get_moustaches();
         if ($this->is_disabled()){ return; }
         $this->loop_through_exporters();

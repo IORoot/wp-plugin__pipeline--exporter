@@ -86,12 +86,12 @@ class add_card
         $query = array(
             'key'       => $this->auth['api_key'],
             'token'     => $this->auth['token'],
-            'idList'    => $this->options['location']['list'],
-            'name'      => $this->options['details']['name'],
-            'desc'      => $this->options['details']['description'],
-            'due'       => $this->options['details']['due_date'],
-            'idLabels'  => implode(',',$this->options['details']['labels']),
-            'urlSource' => $this->options['details']['source_url'],
+            'idList'    => $this->options['trello_list'],
+            'name'      => $this->options['name'],
+            'desc'      => $this->options['description'],
+            'due'       => $this->options['due_date'],
+            'idLabels'  => implode(',',$this->options['labels']),
+            'urlSource' => $this->options['source_url'],
         );
 
         $request = "https://api.trello.com/1/cards?" . http_build_query($query);
@@ -127,9 +127,9 @@ class add_card
      */
     private function update_card_with_custom_fields()
     {
-        if ($this->options['details']['custom_fields'] == false){ return; }
+        if ($this->options['custom_fields'] == false){ return; }
 
-        foreach($this->options['details']['custom_fields'] as $cf_key => $custom_field)
+        foreach($this->options['custom_fields'] as $cf_key => $custom_field)
         {
 
             $headers = array(
@@ -195,7 +195,7 @@ class add_card
      */
     private function isDisabled()
     {
-        if ($this->options['location']['enabled'] == false)
+        if ($this->options['enabled'] == false)
         {
             return true;
         }
