@@ -5,7 +5,7 @@
 //  └─────────────────────────────────────────────────────────────────────────┘
 require __DIR__.'/acf_admin_page.php';
 require __DIR__.'/acf_admin_css.php';
-// require __DIR__.'/acf_admin_fields.php';
+require __DIR__.'/acf_admin_fields.php';
 
 
 //  ┌─────────────────────────────────────────────────────────────────────────┐
