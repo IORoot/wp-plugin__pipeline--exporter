@@ -151,7 +151,7 @@ class export
         $moustache_array = implode('}}</div> <div class="ex__moustache">{{',$moustache_array);
         $moustache_array = '<div class="ex__moustache">{{'.$moustache_array.'}}</div>';
 
-        $field = new \update_acf_options_field;
+        $field = new update_acf_options_field;
         $field->set_field('field_5f7c1268d2959');
         $field->set_value('message', $moustache_array);
         $field->run();

@@ -27,7 +27,7 @@ require __DIR__.'/vendor/autoload.php';
 //  ┌─────────────────────────────────────────────────────────────────────────┐
 //  │                    Google-My-Business API Service                       │
 //  └─────────────────────────────────────────────────────────────────────────┘
-require __DIR__.'/vendor/GMB/MyBusiness.php';
+require __DIR__.'/GMB/MyBusiness.php';
 
 //  ┌─────────────────────────────────────────────────────────────────────────┐
 //  │                          The ACF Admin Page                             │

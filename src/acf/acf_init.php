@@ -7,6 +7,10 @@ require __DIR__.'/acf_admin_page.php';
 require __DIR__.'/acf_admin_css.php';
 require __DIR__.'/acf_admin_fields.php';
 
+//  ┌─────────────────────────────────────────────────────────────────────────┐
+//  │                      Include ACF Options Helpers                        │
+//  └─────────────────────────────────────────────────────────────────────────┘
+require __DIR__.'/update_acf_options_field.php';
 
 //  ┌─────────────────────────────────────────────────────────────────────────┐
 //  │            Populate all of the 'select' types automatically             │
