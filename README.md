@@ -15,31 +15,32 @@
 ##  1. <a name='TableofContents'></a>Table of Contents
 
 
+
 * 1. [Table of Contents](#TableofContents)
-* 2. [About The Project](#AboutTheProject)
-	* 2.1. [Built With](#BuiltWith)
-	* 2.2. [A note about the creative-studio integration.](#Anoteaboutthecreative-studiointegration.)
-	* 2.3. [Installation](#Installation)
-	* 2.4. [Steps before activating AUTH plugins](#StepsbeforeactivatingAUTHplugins)
-	* 2.5. [Check](#Check)
-	* 2.6. [Google My Business](#GoogleMyBusiness)
-	* 2.7. [OAUTH Keys](#OAUTHKeys)
-* 3. [Usage](#Usage)
-	* 3.1. [Authentication](#Authentication)
-	* 3.2. [Job](#Job)
-	* 3.3. [Content](#Content)
-	* 3.4. [Export](#Export)
-	* 3.5. [Housekeep](#Housekeep)
-	* 3.6. [Schedule](#Schedule)
-* 4. [Exporters](#Exporters)
-	* 4.1. [Google My Business](#GoogleMyBusiness-1)
-		* 4.1.1. [Call-To-Action](#Call-To-Action)
-		* 4.1.2. [Events](#Events)
-	* 4.2. [YouTube](#YouTube)
-	* 4.3. [Creator Studio](#CreatorStudio)
-	* 4.4. [Trello](#Trello)
-	* 4.5. [REST Endpoints](#RESTEndpoints)
-* 5. [Customising](#Customising)
+* 2. [The Pipeline Project](#ThePipelineProject)
+* 3. [About The Project](#AboutTheProject)
+	* 3.1. [Built With](#BuiltWith)
+	* 3.2. [A note about the creative-studio integration.](#Anoteaboutthecreative-studiointegration.)
+	* 3.3. [Installation](#Installation)
+	* 3.4. [Steps before activating AUTH plugins](#StepsbeforeactivatingAUTHplugins)
+	* 3.5. [Check](#Check)
+	* 3.6. [Google My Business](#GoogleMyBusiness)
+	* 3.7. [OAUTH Keys](#OAUTHKeys)
+* 4. [Usage](#Usage)
+	* 4.1. [Authentication](#Authentication)
+	* 4.2. [Job](#Job)
+	* 4.3. [Content](#Content)
+	* 4.4. [Export](#Export)
+	* 4.5. [Housekeep](#Housekeep)
+	* 4.6. [Schedule](#Schedule)
+* 5. [Exporters](#Exporters)
+	* 5.1. [Google My Business](#GoogleMyBusiness-1)
+		* 5.1.1. [Call-To-Action](#Call-To-Action)
+		* 5.1.2. [Events](#Events)
+	* 5.2. [YouTube](#YouTube)
+	* 5.3. [Creator Studio](#CreatorStudio)
+	* 5.4. [Trello](#Trello)
+	* 5.5. [REST Endpoints](#RESTEndpoints)
 * 6. [Troubleshooting](#Troubleshooting)
 	* 6.1. [OAUTH Issues](#OAUTHIssues)
 * 7. [Contributing](#Contributing)
@@ -48,8 +49,23 @@
 * 10. [Changelog](#Changelog)
 
 
+##  2. <a name='ThePipelineProject'></a>The Pipeline Project
 
-##  2. <a name='AboutTheProject'></a>About The Project
+The pipeline project was one where I wanted to be able to do the following:
+
+1. Query YouTube / Instagram for specific videos and download the results (video file, post content, meta, etc).
+1. Automatically create some cover art.
+1. Combine the videos to create a quick trailer.
+1. Export the results to my social media.
+
+This then became the components of the pipeline project:
+
+1. [API Scraper](https://github.com/IORoot/wp-plugin__pipeline--api-scraper)
+1. [Generative Images](https://github.com/IORoot/wp-plugin__pipeline--generative-images)
+1. [The Processor](https://github.com/IORoot/wp-plugin__pipeline--processor)
+1. [Exporter](https://github.com/IORoot/wp-plugin__pipeline--exporter)
+
+##  3. <a name='AboutTheProject'></a>About The Project
 
 The pipeline project was built to automatically build, process and export generated posts. This plugin is that last part of the process. The exporter connects with various endpoints and APIs to send those generated posts to.
 
@@ -59,7 +75,7 @@ Originally I wanted all social media, but eventually whittled it down to YouTube
 
 
 
-###  2.1. <a name='BuiltWith'></a>Built With
+###  3.1. <a name='BuiltWith'></a>Built With
 
 This project was built with the following frameworks, technologies and software.
 
@@ -83,7 +99,7 @@ with the google APIs. These need to be configured and running (with a `client_se
 - [https://github.com/IORoot/wp-plugin__acf--codemirror](https://github.com/IORoot/wp-plugin__acf--codemirror)
 
 
-###  2.2. <a name='Anoteaboutthecreative-studiointegration.'></a>A note about the creative-studio integration.
+###  3.2. <a name='Anoteaboutthecreative-studiointegration.'></a>A note about the creative-studio integration.
 
 This is purely a test interface to my other project [https://github.com/IORoot/docker__puppeteer--facebook](https://github.com/IORoot/docker__puppeteer--facebook).
 That project is a  docker container that hosts a webserver to a puppeteer script. That script will navigate to creator-studio and attempt to post your video or image to Facebook and Instagram.
@@ -95,7 +111,7 @@ This plugin has an authentication and exporter method for that service, but you'
 
 
 
-###  2.3. <a name='Installation'></a>Installation
+###  3.3. <a name='Installation'></a>Installation
 
 > This was built with ACF PRO - Please make sure it is installed before installing this plugin.
 
@@ -111,25 +127,25 @@ These are the steps to get up and running with this plugin.
 <p align="right">(<a href="#top">back to top</a>)</p>
 
 
-###  2.4. <a name='StepsbeforeactivatingAUTHplugins'></a>Steps before activating AUTH plugins
+###  3.4. <a name='StepsbeforeactivatingAUTHplugins'></a>Steps before activating AUTH plugins
 
 1. Make sure you do a `composer install` or `composer update` in each before activating 
 1. Also, make sure the `client_secret.json` file is placed in the root of each OAUTH plugin. (See below)
 
 There is a .gitignore on the file `client_secret.json`, so you don't commit it to a repo by accident.
 
-###  2.5. <a name='Check'></a>Check
+###  3.5. <a name='Check'></a>Check
 
 If the auth plugins are working, you will see a new 'LOGIN WITH YOUTUBE' button on authentication tab on the exporter plugin for youtube.
 
-###  2.6. <a name='GoogleMyBusiness'></a>Google My Business
+###  3.6. <a name='GoogleMyBusiness'></a>Google My Business
 
 Is one of the only client-libraries that is NOT part of the standard `google/apiclient-services`, so you have to download it yourself.
 You can get it here: https://developers.google.com/my-business/samples/previousVersions
 
 Place it into the `/GMB` folder.
 
-###  2.7. <a name='OAUTHKeys'></a>OAUTH Keys
+###  3.7. <a name='OAUTHKeys'></a>OAUTH Keys
 
 Head over the the google console https://console.cloud.google.com/ and create a project with the following APIs:
 
@@ -140,11 +156,11 @@ The google my business API is a private one and you need to request access from 
 
 Create an OAUTH 2.0 client ID and download the `client_secret.json` file: place it into the root of the plugin.
 
-##  3. <a name='Usage'></a>Usage
+##  4. <a name='Usage'></a>Usage
 
 This usage documentation is split between the main plugin and the exporters. This is because there are multiple exporters, each with their own interface which work differently. Therefore, see that section to find out how they work.
 
-###  3.1. <a name='Authentication'></a>Authentication
+###  4.1. <a name='Authentication'></a>Authentication
 
 The authentication tab connects the plugin to the third-party services. There are currently four different methods:
 
@@ -161,7 +177,7 @@ The authentication tab connects the plugin to the third-party services. There ar
 
 ![authentication](https://github.com/IORoot/wp-plugin__pipeline--exporter/blob/main/files/docs/authentication.png?raw=true)
 
-###  3.2. <a name='Job'></a>Job
+###  4.2. <a name='Job'></a>Job
 
 A job allows you to select variations of settings to run.
 
@@ -174,7 +190,7 @@ A job allows you to select variations of settings to run.
 
 ![Job](https://github.com/IORoot/wp-plugin__pipeline--exporter/blob/main/files/docs/Job.png?raw=true)
 
-###  3.3. <a name='Content'></a>Content
+###  4.3. <a name='Content'></a>Content
 
 The content is the body of the post you are going to use when exporting. This will be the text in your video or image post.
 
@@ -186,7 +202,7 @@ The content is the body of the post you are going to use when exporting. This wi
 
 ![Content](https://github.com/IORoot/wp-plugin__pipeline--exporter/blob/main/files/docs/Content.png?raw=true)
 
-###  3.4. <a name='Export'></a>Export
+###  4.4. <a name='Export'></a>Export
 
 This is where you configure the specific exporters to use and the targets. Please see the next section for a description of each exporter.
 
@@ -206,7 +222,7 @@ This is where you configure the specific exporters to use and the targets. Pleas
 
 ![Export](https://github.com/IORoot/wp-plugin__pipeline--exporter/blob/main/files/docs/Export.png?raw=true)
 
-###  3.5. <a name='Housekeep'></a>Housekeep 
+###  4.5. <a name='Housekeep'></a>Housekeep 
 
 One the exporters have run, you might want to remove posts from the system so they don't get exported again. The housekeeping tab allows you to do that.
 
@@ -221,7 +237,7 @@ One the exporters have run, you might want to remove posts from the system so th
 
 ![Housekeep](https://github.com/IORoot/wp-plugin__pipeline--exporter/blob/main/files/docs/Housekeep.png?raw=true)
 
-###  3.6. <a name='Schedule'></a>Schedule 
+###  4.6. <a name='Schedule'></a>Schedule 
 
 - Enabled. List in the 'jobs' tab or not.
 - Save ID. The name of the scheduled instance to list in the 'jobs' tab.
@@ -232,11 +248,11 @@ One the exporters have run, you might want to remove posts from the system so th
 
 ![Schedule](https://github.com/IORoot/wp-plugin__pipeline--exporter/blob/main/files/docs/Schedule.png?raw=true)
 
-##  4. <a name='Exporters'></a>Exporters
+##  5. <a name='Exporters'></a>Exporters
 
-###  4.1. <a name='GoogleMyBusiness-1'></a>Google My Business
+###  5.1. <a name='GoogleMyBusiness-1'></a>Google My Business
 
-####  4.1.1. <a name='Call-To-Action'></a>Call-To-Action 
+####  5.1.1. <a name='Call-To-Action'></a>Call-To-Action 
 
 ##### Instance
 
@@ -287,7 +303,7 @@ accounts/1234567890123455678901/locations/12345678901234567890
 
 
 
-####  4.1.2. <a name='Events'></a>Events
+####  5.1.2. <a name='Events'></a>Events
 
 ##### Instance 
 
@@ -344,7 +360,7 @@ accounts/1234567890123455678901/locations/12345678901234567890
 
 
 
-###  4.2. <a name='YouTube'></a>YouTube
+###  5.2. <a name='YouTube'></a>YouTube
 
 ##### Instance
 
@@ -394,7 +410,7 @@ accounts/1234567890123455678901/locations/12345678901234567890
 
 
 
-###  4.3. <a name='CreatorStudio'></a>Creator Studio
+###  5.3. <a name='CreatorStudio'></a>Creator Studio
 
 The creator studio exporter will directly communicate with your own hosted docker image of the [https://github.com/IORoot/docker__puppeteer--facebook](https://github.com/IORoot/docker__puppeteer--facebook) project.
 
@@ -471,7 +487,7 @@ This exporter will connect to the express.js API and send the details required t
 
 
 
-###  4.4. <a name='Trello'></a>Trello
+###  5.4. <a name='Trello'></a>Trello
 
 ##### Instance 
 
@@ -526,7 +542,7 @@ Any Fields found will be auto-populated in the 'fields' column dropdown box.
 
 
 
-###  4.5. <a name='RESTEndpoints'></a>REST Endpoints
+###  5.5. <a name='RESTEndpoints'></a>REST Endpoints
 
 ##### Description 
 
