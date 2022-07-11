@@ -15,7 +15,6 @@
 ##  1. <a name='TableofContents'></a>Table of Contents
 
 
-
 * 1. [Table of Contents](#TableofContents)
 * 2. [The Pipeline Project](#ThePipelineProject)
 * 3. [About The Project](#AboutTheProject)
@@ -41,12 +40,15 @@
 	* 5.3. [Creator Studio](#CreatorStudio)
 	* 5.4. [Trello](#Trello)
 	* 5.5. [REST Endpoints](#RESTEndpoints)
-* 6. [Troubleshooting](#Troubleshooting)
-	* 6.1. [OAUTH Issues](#OAUTHIssues)
-* 7. [Contributing](#Contributing)
-* 8. [License](#License)
-* 9. [Contact](#Contact)
-* 10. [Changelog](#Changelog)
+* 6. [Custom Post Type.](#CustomPostType.)
+* 7. [Troubleshooting](#Troubleshooting)
+	* 7.1. [OAUTH Issues](#OAUTHIssues)
+* 8. [Contributing](#Contributing)
+* 9. [License](#License)
+* 10. [Contact](#Contact)
+* 11. [Changelog](#Changelog)
+
+
 
 
 ##  2. <a name='ThePipelineProject'></a>The Pipeline Project
@@ -598,12 +600,17 @@ Due to the code, all endpoints WILL be defined and will work if the the export i
 
 
 
+##  6. <a name='CustomPostType.'></a>Custom Post Type.
+
+This plugin also comes with a custom post type (CPT) called "exporter" that you can use to export your output to. This can be used as a intermediate step before exporting off to your third-party apps.
+
+The "Exporter" CPT will appear in the admin sidebar sidemenu.
 
 
 
-##  6. <a name='Troubleshooting'></a>Troubleshooting
+##  7. <a name='Troubleshooting'></a>Troubleshooting
 
-###  6.1. <a name='OAUTHIssues'></a>OAUTH Issues
+###  7.1. <a name='OAUTHIssues'></a>OAUTH Issues
 
 
 1. Ensure HTTPS is working. (Make sure cert is created and added to keychain)
@@ -626,7 +633,7 @@ https://dev.exporter.londonparkour.com
 <p align="right">(<a href="#top">back to top</a>)</p>
 
 
-##  7. <a name='Contributing'></a>Contributing
+##  8. <a name='Contributing'></a>Contributing
 
 Contributions are what make the open source community such an amazing place to learn, inspire, and create. Any contributions you make are **greatly appreciated**.
 
@@ -643,7 +650,7 @@ Don't forget to give the project a star! Thanks again!
 
 
 
-##  8. <a name='License'></a>License
+##  9. <a name='License'></a>License
 
 Distributed under the MIT License.
 
@@ -673,12 +680,12 @@ SOFTWARE.
 
 
 
-##  9. <a name='Contact'></a>Contact
+##  10. <a name='Contact'></a>Contact
 
 Author Link: [https://github.com/IORoot](https://github.com/IORoot)
 
 <p align="right">(<a href="#top">back to top</a>)</p>
 
-##  10. <a name='Changelog'></a>Changelog
+##  11. <a name='Changelog'></a>Changelog
 
 - v1.0.0 - Initial Commit
